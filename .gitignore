@@ -1,0 +1,15 @@
+# Local overrides
+config/db.local.php
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Uploaded product images (keep repo light — commit placeholders only if needed)
+uploads/*
+!uploads/.gitkeep
+
+# XAMPP / logs
+*.log

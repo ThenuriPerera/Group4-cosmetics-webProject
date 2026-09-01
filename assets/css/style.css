@@ -1,0 +1,74 @@
+/* Lumine Glow - Base Styles
+   Shared file — add your module's section-specific styles below the marker
+   comments to avoid merge conflicts. */
+
+:root {
+    --pink-primary: #d63384;
+    --pink-dark: #7a1250;
+    --pink-light: #fbe4ee;
+    --text-dark: #2b2b2b;
+    --white: #ffffff;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: var(--text-dark);
+    background: var(--white);
+    line-height: 1.5;
+}
+
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: var(--pink-dark);
+    color: var(--white);
+}
+
+.site-header .logo { font-size: 1.4rem; font-weight: bold; }
+.site-header nav a {
+    color: var(--white);
+    text-decoration: none;
+    margin-left: 1rem;
+    font-size: 0.9rem;
+}
+.site-header nav a:hover { text-decoration: underline; }
+
+.site-main { padding: 2rem; max-width: 1100px; margin: 0 auto; }
+
+.btn, button[type="submit"] {
+    background: var(--pink-primary);
+    color: var(--white);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+.btn:hover, button[type="submit"]:hover { background: var(--pink-dark); }
+
+.error { color: #b00020; margin-bottom: 1rem; }
+
+/* ===== Member 1: Auth styles go here ===== */
+.auth-form { max-width: 400px; margin: 0 auto; }
+.auth-form label { display: block; margin-bottom: 0.8rem; }
+.auth-form input { width: 100%; padding: 0.5rem; margin-top: 0.3rem; }
+
+/* ===== Member 2: Catalogue / smart feature styles go here ===== */
+.product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.2rem; margin-top: 1rem; }
+.product-card { border: 1px solid #eee; border-radius: 8px; padding: 1rem; text-align: center; }
+.product-card img { max-width: 100%; height: 140px; object-fit: cover; }
+.filter-bar a { margin-right: 1rem; color: var(--pink-primary); text-decoration: none; }
+
+/* ===== Member 3: Cart / checkout / payment styles go here ===== */
+.cart-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+.cart-table th, .cart-table td { border-bottom: 1px solid #eee; padding: 0.6rem; text-align: left; }
+.cart-total { font-size: 1.2rem; font-weight: bold; margin: 1rem 0; }
+
+/* ===== Member 4: Orders / reviews / wishlist / admin styles go here ===== */
+.order-card { border: 1px solid #eee; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+.stats-grid { display: flex; gap: 1rem; }
+.stat-card { flex: 1; background: var(--pink-light); border-radius: 8px; padding: 1.2rem; text-align: center; }
