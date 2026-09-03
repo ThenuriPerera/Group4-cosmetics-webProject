@@ -303,41 +303,134 @@ require_once __DIR__ . '/../../includes/header.php';
         color: #777;
     }
 </style>
+<section class="reviews-section">
 
-    // TODO: purchase verification before insert
-    $pdo->prepare(
-        "INSERT INTO Review (user_id, product_id, rating, comment, status) VALUES (?, ?, ?, ?, 'Pending')"
-    )->execute([$userId, $productId, $rating, $comment]);
+    <div class="reviews-header">
+        <h2>Customer Reviews</h2>
 
-    header('Location: /modules/products/product.php?id=' . $productId);
-    exit;
-}
+        <p>
+            Reviews for
+            <strong><?= htmlspecialchars($product['product_name']) ?></strong>
+        </p>
+    </div>
 
-$stmt = $pdo->prepare("SELECT r.*, u.name FROM Review r JOIN User u ON r.user_id = u.user_id WHERE product_id = ? AND status = 'Approved'");
-$stmt->execute([$productId]);
-$reviews = $stmt->fetchAll();
-
-require_once __DIR__ . '/../../includes/header.php';
-?>
-<section class="reviews">
-    <h2>Reviews</h2>
-    <?php foreach ($reviews as $r): ?>
-        <div class="review">
-            <strong><?= htmlspecialchars($r['name']) ?></strong> — <?= $r['rating'] ?>/5
-            <p><?= htmlspecialchars($r['comment']) ?></p>
+    <?php if ($message !== ''): ?>
+        <div class="message <?= htmlspecialchars($messageType) ?>">
+            <?= htmlspecialchars($message) ?>
         </div>
-    <?php endforeach; ?>
+    <?php endif; ?>
+    <!-- Review Form -->
+    <div class="review-form">
 
-    <form method="post">
-        <input type="hidden" name="product_id" value="<?= htmlspecialchars($productId) ?>">
-        <label>Rating
-            <select name="rating">
-                <option value="5">5</option><option value="4">4</option>
-                <option value="3">3</option><option value="2">2</option><option value="1">1</option>
-            </select>
-        </label>
-        <textarea name="comment" placeholder="Your review..."></textarea>
-        <button type="submit">Submit Review</button>
-    </form>
+        <h3>Write a Review</h3>
+
+        <form method="post">
+
+            <input
+                type="hidden"
+                name="product_id"
+                value="<?= htmlspecialchars($productId) ?>"
+            >
+
+            <div class="form-group">
+
+                <label for="rating">
+                    Rating
+                </label>
+
+                <select
+                    id="rating"
+                    name="rating"
+                    class="rating-select"
+                    required
+                >
+                    <option value="">Select rating</option>
+                    <option value="5">★★★★★ - 5</option>
+                    <option value="4">★★★★☆ - 4</option>
+                    <option value="3">★★★☆☆ - 3</option>
+                    <option value="2">★★☆☆☆ - 2</option>
+                    <option value="1">★☆☆☆☆ - 1</option>
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="comment">
+                    Your Review
+                </label>
+
+                <textarea
+                    id="comment"
+                    name="comment"
+                    class="review-textarea"
+                    placeholder="Share your experience with this product..."
+                    maxlength="1000"
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="submit-review-btn"
+            >
+                Submit Review
+            </button>
+
+        </form>
+
+    </div>
+    <!-- Approved Reviews -->
+    <div class="reviews-list">
+
+        <?php if (empty($reviews)): ?>
+
+            <div class="no-reviews">
+                <p>No approved reviews yet.</p>
+            </div>
+
+        <?php else: ?>
+
+            <?php foreach ($reviews as $review): ?>
+
+                <div class="review-card">
+
+                    <div class="review-top">
+
+                        <div>
+                            <div class="review-user">
+                                <?= htmlspecialchars($review['name']) ?>
+                            </div>
+
+                            <div class="review-date">
+                                <?= htmlspecialchars($review['rating_date']) ?>
+                            </div>
+                        </div>
+
+                        <div class="review-rating">
+                            <?= str_repeat('★', (int)$review['rating']) ?>
+                            <?= str_repeat('☆', 5 - (int)$review['rating']) ?>
+                        </div>
+
+                    </div>
+
+                    <p class="review-comment">
+                        <?= htmlspecialchars($review['comment']) ?>
+                    </p>
+
+                </div>
+
+            <?php endforeach; ?>
+
+        <?php endif; ?>
+
+    </div>
+
 </section>
+
 <?php require_once __DIR__ . '/../../includes/footer.php'; ?>
+
+    
