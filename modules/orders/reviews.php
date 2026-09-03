@@ -10,13 +10,117 @@
 require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../../includes/auth.php';
 require_login();
-
+   $user = current_user();
+   $userId = (int)$user['user_id'];
+  
 $productId = $_GET['product_id'] ?? $_POST['product_id'] ?? null;
+$productId = (int)$productId;
 
+   /*
+ * Validate product ID
+ */
+if ($productId <= 0) {
+    header('Location: /modules/products/product.php');
+    exit;
+}
+
+$message = '';
+$messageType = '';
+
+
+/*
+ * Handle review submission
+ */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $userId = current_user()['user_id'];
-    $rating = (int)$_POST['rating'];
-    $comment = trim($_POST['comment']);
+
+    $rating = (int)($_POST['rating'] ?? 0);
+    $comment = trim($_POST['comment'] ?? '');
+
+     /*
+     * Validate rating
+     */
+    if ($rating < 1 || $rating > 5) {
+
+        $message = 'Please select a rating between 1 and 5.';
+        $messageType = 'error';
+
+    } elseif ($comment === '') {
+
+        $message = 'Please enter your review comment.';
+        $messageType = 'error';
+
+    } else {
+        /*
+         * Check whether the customer purchased this product.
+         *
+         * A non-cancelled order containing this product
+         * is considered a purchase.
+         */
+        $purchaseStmt = $pdo->prepare("
+            SELECT COUNT(*)
+            FROM `Order` o
+            INNER JOIN Order_Item oi
+                ON o.order_id = oi.order_id
+            WHERE o.user_id = ?
+              AND oi.product_id = ?
+              AND o.order_status != 'Cancelled'
+        ");
+
+        $purchaseStmt->execute([$userId, $productId]);
+
+        $hasPurchased = (int)$purchaseStmt->fetchColumn() > 0;
+
+        if (!$hasPurchased) {
+
+            $message = 'You can only review products that you have purchased.';
+            $messageType = 'error';
+
+        } else {
+
+            /*
+             * Check whether the customer already reviewed
+             * this product.
+             */
+            $duplicateStmt = $pdo->prepare("
+                SELECT COUNT(*)
+                FROM Review
+                WHERE user_id = ?
+                  AND product_id = ?
+            ");
+
+            $duplicateStmt->execute([$userId, $productId]);
+
+            $alreadyReviewed = (int)$duplicateStmt->fetchColumn() > 0;
+
+            if ($alreadyReviewed) {
+
+                $message = 'You have already submitted a review for this product.';
+                $messageType = 'error';
+
+            } else {
+
+                /*
+                 * New reviews are Pending until admin approval.
+                 */
+                $insertStmt = $pdo->prepare("
+                    INSERT INTO Review
+                    (user_id, product_id, rating, comment, status)
+                    VALUES (?, ?, ?, ?, 'Pending')
+                ");
+
+                $insertStmt->execute([
+                    $userId,
+                    $productId,
+                    $rating,
+                    $comment
+                ]);
+
+                $message = 'Your review has been submitted and is waiting for admin approval.';
+                $messageType = 'success';
+            }
+        }
+    }
+}
 
     // TODO: purchase verification before insert
     $pdo->prepare(
