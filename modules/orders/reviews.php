@@ -121,6 +121,188 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+/*
+ * Get approved reviews for this product
+ */
+$reviewStmt = $pdo->prepare("
+    SELECT
+        r.review_id,
+        r.rating,
+        r.comment,
+        r.rating_date,
+        u.name
+    FROM Review r
+    INNER JOIN `User` u
+        ON r.user_id = u.user_id
+    WHERE r.product_id = ?
+      AND r.status = 'Approved'
+    ORDER BY r.rating_date DESC
+");
+
+$reviewStmt->execute([$productId]);
+$reviews = $reviewStmt->fetchAll(PDO::FETCH_ASSOC);
+
+/*
+ * Get product information
+ */
+$productStmt = $pdo->prepare("
+    SELECT product_id, product_name
+    FROM Product
+    WHERE product_id = ?
+");
+
+$productStmt->execute([$productId]);
+$product = $productStmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$product) {
+    header('Location: /modules/products/product.php');
+    exit;
+}
+
+require_once __DIR__ . '/../../includes/header.php';
+?>
+<style>
+    .reviews-section {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .reviews-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .reviews-header h2 {
+        font-size: 32px;
+        margin-bottom: 8px;
+    }
+
+    .reviews-header p {
+        color: #777;
+        margin: 0;
+    }
+
+    .message {
+        padding: 14px 18px;
+        border-radius: 8px;
+        margin-bottom: 25px;
+        font-weight: 500;
+    }
+
+    .message.success {
+        background: #e8f7ed;
+        color: #267a43;
+        border: 1px solid #b9e5c6;
+    }
+
+    .message.error {
+        background: #fdeaea;
+        color: #b42318;
+        border: 1px solid #f2b8b5;
+    }
+
+    .review-form {
+        background: #fff;
+        padding: 25px;
+        border-radius: 12px;
+        margin-bottom: 35px;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .review-form h3 {
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 7px;
+    }
+
+    .rating-select,
+    .review-textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 15px;
+        box-sizing: border-box;
+    }
+
+    .review-textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    .rating-select:focus,
+    .review-textarea:focus {
+        outline: none;
+        border-color: #999;
+    }
+
+    .submit-review-btn {
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .reviews-list {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .review-card {
+        background: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    .review-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .review-user {
+        font-weight: 700;
+    }
+
+    .review-rating {
+        font-weight: 600;
+    }
+
+    .review-date {
+        color: #888;
+        font-size: 13px;
+    }
+
+    .review-comment {
+        color: #444;
+        line-height: 1.6;
+        margin-bottom: 0;
+    }
+
+    .no-reviews {
+        text-align: center;
+        padding: 30px;
+        background: #fafafa;
+        border-radius: 10px;
+        color: #777;
+    }
+</style>
 
     // TODO: purchase verification before insert
     $pdo->prepare(
