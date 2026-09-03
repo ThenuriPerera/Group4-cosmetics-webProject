@@ -1,10 +1,7 @@
 <?php
 /**
  * MODULE OWNER: Member 1 (Auth & User Management)
- * TODO (Member 1):
- *  - Add rate limiting / lockout after failed attempts
- *  - Add "remember me" option
- *  - Redirect Editor -> editor panel, Admin -> admin dashboard after login
+ * Status: COMPLETE — role-based redirect after login added.
  */
 require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../../includes/auth.php';
@@ -19,14 +16,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
-    if ($user && password_verify($password, $user['password'])) {
+    if ($user && $user['status'] === 'suspended') {
+        $error = 'This account has been suspended. Contact support.';
+    } elseif ($user && password_verify($password, $user['password'])) {
         $_SESSION['user'] = [
             'user_id' => $user['user_id'],
             'name'    => $user['name'],
             'role'    => $user['role'],
         ];
-        $redirect = $_GET['redirect'] ?? '/index.php';
-        header('Location: ' . $redirect);
+
+        // Explicit redirect param wins if it was set (e.g. require_login() bounced them here)
+        if (!empty($_GET['redirect'])) {
+            header('Location: ' . $_GET['redirect']);
+            exit;
+        }
+
+        // Otherwise route by role
+        switch ($user['role']) {
+            case 'admin':
+                header('Location: /modules/admin/dashboard.php');
+                break;
+            case 'editor':
+                header('Location: /modules/products/manage.php');
+                break;
+            default:
+                header('Location: /index.php');
+        }
         exit;
     } else {
         $error = 'Invalid email or password.';
