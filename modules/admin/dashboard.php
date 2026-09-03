@@ -696,6 +696,168 @@ require_once __DIR__ . '/../../includes/header.php';
 
     </section>
 
+<!-- =================================================
+         PAYMENT MONITORING
+         ================================================= -->
+
+    <section class="dashboard-section">
+
+        <h2>Payment Monitoring</h2>
+
+        <?php if (!empty($payments)): ?>
+
+            <table class="admin-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Payment ID</th>
+                        <th>Order ID</th>
+                        <th>Method</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <?php foreach ($payments as $payment): ?>
+
+                        <tr>
+
+                            <td>
+                                #<?= htmlspecialchars(
+                                    $payment['payment_id']
+                                ) ?>
+                            </td>
+
+                            <td>
+                                #<?= htmlspecialchars(
+                                    $payment['order_id']
+                                ) ?>
+                            </td>
+
+                            <td>
+                                <?= htmlspecialchars(
+                                    $payment['method'] ?? 'N/A'
+                                ) ?>
+                            </td>
+
+                            <td>
+                                Rs.
+                                <?= number_format(
+                                    (float)$payment['amount'],
+                                    2
+                                ) ?>
+                            </td>
+
+                            <td>
+                                <?= htmlspecialchars(
+                                    $payment['status']
+                                ) ?>
+                            </td>
+
+                            <td>
+                                <?= htmlspecialchars(
+                                    $payment['payment_date']
+                                ) ?>
+                            </td>
+
+                        </tr>
+
+                    <?php endforeach; ?>
+
+                </tbody>
+
+            </table>
+
+        <?php else: ?>
+
+            <p>No payment records found.</p>
+
+        <?php endif; ?>
+
+    </section>
+<!-- =================================================
+         PENDING REVIEW MODERATION
+         ================================================= -->
+
+    <section class="dashboard-section">
+
+        <h2>Pending Reviews</h2>
+
+        <?php if (!empty($pendingReviews)): ?>
+
+            <table class="admin-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Customer</th>
+                        <th>Product</th>
+                        <th>Rating</th>
+                        <th>Comment</th>
+                        <th>Date</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <?php foreach ($pendingReviews as $review): ?>
+
+                        <tr>
+
+                            <td>
+                                <?= htmlspecialchars(
+                                    $review['customer_name']
+                                ) ?>
+                            </td>
+
+                            <td>
+                                <?= htmlspecialchars(
+                                    $review['product_name']
+                                ) ?>
+                            </td>
+
+                            <td>
+                                <?= str_repeat(
+                                    '⭐',
+                                    (int)$review['rating']
+                                ) ?>
+                            </td>
+
+                            <td>
+                                <?= htmlspecialchars(
+                                    $review['comment'] ?? ''
+                                ) ?>
+                            </td>
+
+                            <td>
+                                <?= htmlspecialchars(
+                                    $review['rating_date']
+                                ) ?>
+                            </td>
+
+                        </tr>
+
+                    <?php endforeach; ?>
+
+                </tbody>
+
+            </table>
+
+        <?php else: ?>
+
+            <p>No pending reviews.</p>
+
+        <?php endif; ?>
+
+    </section>
+
+</section>
 
 
 

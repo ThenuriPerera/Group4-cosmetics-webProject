@@ -190,6 +190,7 @@ CREATE TABLE Wishlist (
     wishlist_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     product_id INT NOT NULL,
+    UNIQUE (user_id, product_id),
     FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES Product(product_id) ON DELETE CASCADE
 );
