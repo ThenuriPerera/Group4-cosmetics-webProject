@@ -618,6 +618,84 @@ require_once __DIR__ . '/../../includes/header.php';
 
     </section>
 
+<!-- =================================================
+         RECENT ORDERS
+         ================================================= -->
+
+    <section class="dashboard-section">
+
+        <h2>Recent Orders</h2>
+
+        <?php if (!empty($recentOrders)): ?>
+
+            <table class="admin-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Order</th>
+                        <th>Customer</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <?php foreach ($recentOrders as $order): ?>
+
+                        <tr>
+
+                            <td>
+                                #<?= htmlspecialchars(
+                                    $order['order_id']
+                                ) ?>
+                            </td>
+
+                            <td>
+                                <?= htmlspecialchars(
+                                    $order['customer_name']
+                                ) ?>
+                            </td>
+
+                            <td>
+                                Rs.
+                                <?= number_format(
+                                    (float)$order['total_amount'],
+                                    2
+                                ) ?>
+                            </td>
+
+                            <td>
+                                <?= htmlspecialchars(
+                                    $order['order_status']
+                                ) ?>
+                            </td>
+
+                            <td>
+                                <?= htmlspecialchars(
+                                    $order['order_date']
+                                ) ?>
+                            </td>
+
+                        </tr>
+
+                    <?php endforeach; ?>
+
+                </tbody>
+
+            </table>
+
+        <?php else: ?>
+
+            <p>No orders found.</p>
+
+        <?php endif; ?>
+
+    </section>
+
 
 
 
