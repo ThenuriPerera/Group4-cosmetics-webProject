@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_address'])) {
 if (isset($_GET['delete_address'])) {
     $pdo->prepare("DELETE FROM Address WHERE address_id = ? AND user_id = ?")
         ->execute([$_GET['delete_address'], $userId]);
-    header('Location: /modules/auth/profile.php');
+    header('Location: ' . app_url('/modules/auth/profile.php'));
     exit;
 }
 

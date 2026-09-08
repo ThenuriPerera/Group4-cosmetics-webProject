@@ -13,8 +13,8 @@ require_once __DIR__ . '/../../includes/header.php';
     <h1>Payment Cancelled</h1>
     <p>Your payment was not completed. No charge was made, and your cart items are still saved.</p>
     <?php if ($orderId): ?>
-        <a class="btn" href="/modules/cart/checkout.php">Try Again</a>
+        <a class="btn" href="<?= app_url('/modules/cart/checkout.php') ?>">Try Again</a>
     <?php endif; ?>
-    <a href="/modules/cart/cart.php">Back to Cart</a>
+    <a href="<?= app_url('/modules/cart/cart.php') ?>">Back to Cart</a>
 </section>
 <?php require_once __DIR__ . '/../../includes/footer.php'; ?>

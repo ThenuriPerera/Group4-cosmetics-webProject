@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "INSERT INTO Review (user_id, product_id, rating, comment, status) VALUES (?, ?, ?, ?, 'Pending')"
         )->execute([$userId, $productId, $rating, $comment]);
 
-        header('Location: /modules/products/product.php?id=' . $productId . '&review_submitted=1');
+        header('Location: ' . app_url('/modules/products/product.php?id=' . $productId . '&review_submitted=1'));
         exit;
     }
 }

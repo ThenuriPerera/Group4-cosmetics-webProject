@@ -8,7 +8,7 @@
 $DB_HOST = 'localhost';
 $DB_NAME = 'lumine_glow';
 $DB_USER = 'root';
-$DB_PASS = '';
+$DB_PASS = '5riL@nka';
 
 try {
     $pdo = new PDO(

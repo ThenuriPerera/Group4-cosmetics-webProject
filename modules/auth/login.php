@@ -34,13 +34,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Otherwise route by role
         switch ($user['role']) {
             case 'admin':
-                header('Location: /modules/admin/dashboard.php');
+                header('Location: ' . app_url('/modules/admin/dashboard.php'));
                 break;
             case 'editor':
-                header('Location: /modules/products/manage.php');
+                header('Location: ' . app_url('/modules/products/manage.php'));
                 break;
             default:
-                header('Location: /index.php');
+                header('Location: ' . app_url('/index.php'));
         }
         exit;
     } else {
@@ -58,6 +58,6 @@ require_once __DIR__ . '/../../includes/header.php';
         <label>Password <input type="password" name="password" required></label>
         <button type="submit">Login</button>
     </form>
-    <p>No account? <a href="/modules/auth/register.php">Register</a></p>
+    <p>No account? <a href="<?= app_url('/modules/auth/register.php') ?>">Register</a></p>
 </section>
 <?php require_once __DIR__ . '/../../includes/footer.php'; ?>

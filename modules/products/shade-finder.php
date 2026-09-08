@@ -63,7 +63,7 @@ $swatches = [
                 <div class="product-card">
                     <h3><?= htmlspecialchars($p['product_name']) ?></h3>
                     <p>Rs. <?= number_format($p['price'], 2) ?></p>
-                    <a href="/modules/products/product.php?id=<?= $p['product_id'] ?>">View</a>
+                    <a href="<?= app_url('/modules/products/product.php?id=' . $p['product_id']) ?>">View</a>
                 </div>
             <?php endforeach; ?>
         </div>

@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_product'])) {
 // Delete product
 if (isset($_GET['delete'])) {
     $pdo->prepare("DELETE FROM Product WHERE product_id = ?")->execute([$_GET['delete']]);
-    header('Location: /modules/products/manage.php');
+    header('Location: ' . app_url('/modules/products/manage.php'));
     exit;
 }
 
@@ -110,7 +110,7 @@ require_once __DIR__ . '/../../includes/header.php';
         <label>Image URL <input type="text" name="image" value="<?= htmlspecialchars($editProduct['image'] ?? '') ?>" placeholder="/assets/images/product.jpg"></label>
         <label>Description <textarea name="description"><?= htmlspecialchars($editProduct['description'] ?? '') ?></textarea></label>
         <button type="submit" name="save_product"><?= $editProduct ? 'Update' : 'Add' ?> Product</button>
-        <?php if ($editProduct): ?><a href="/modules/products/manage.php">Cancel</a><?php endif; ?>
+        <?php if ($editProduct): ?><a href="<?= app_url('/modules/products/manage.php') ?>">Cancel</a><?php endif; ?>
     </form>
 
     <h2>All Products</h2>

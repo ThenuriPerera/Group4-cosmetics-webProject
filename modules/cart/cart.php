@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
         $pdo->prepare("INSERT INTO Cart_Item (cart_id, product_id, variant_id, quantity) VALUES (?, ?, ?, ?)")
             ->execute([$cartId, $productId, $variantId, $qty]);
     }
-    header('Location: /modules/cart/cart.php');
+    header('Location: ' . app_url('/modules/cart/cart.php'));
     exit;
 }
 
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_item'])) {
     $pdo->prepare("DELETE FROM Cart_Item WHERE cart_item_id = ? AND cart_id = ?")
         ->execute([$_POST['cart_item_id'], $cartId]);
-    header('Location: /modules/cart/cart.php');
+    header('Location: ' . app_url('/modules/cart/cart.php'));
     exit;
 }
 
@@ -90,7 +90,7 @@ require_once __DIR__ . '/../../includes/header.php';
         </tbody>
     </table>
     <p class="cart-total">Total: Rs. <span id="cart-total-amount"><?= number_format($total, 2) ?></span></p>
-    <a class="btn" href="/modules/cart/checkout.php">Proceed to Checkout</a>
+    <a class="btn" href="<?= app_url('/modules/cart/checkout.php') ?>">Proceed to Checkout</a>
 </section>
 
 <script>
@@ -98,7 +98,7 @@ document.querySelectorAll('.qty-input').forEach(input => {
     input.addEventListener('change', () => {
         const id = input.dataset.cartItemId;
         const qty = Math.max(1, parseInt(input.value || '1', 10));
-        fetch('/modules/cart/cart-ajax.php', {
+        fetch('<?= app_url('/modules/cart/cart-ajax.php') ?>', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `action=update_quantity&cart_item_id=${id}&quantity=${qty}`
@@ -118,7 +118,7 @@ document.querySelectorAll('.qty-input').forEach(input => {
 document.querySelectorAll('.remove-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         const id = btn.dataset.cartItemId;
-        fetch('/modules/cart/cart-ajax.php', {
+        fetch('<?= app_url('/modules/cart/cart-ajax.php') ?>', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `action=remove&cart_item_id=${id}`

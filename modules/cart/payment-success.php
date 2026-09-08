@@ -54,10 +54,10 @@ if (($session['payment_status'] ?? '') === 'paid') {
         }
     }
 
-    header('Location: /modules/orders/track-order.php?order_id=' . $orderId . '&paid=1');
+    header('Location: ' . app_url('/modules/orders/track-order.php?order_id=' . $orderId . '&paid=1'));
     exit;
 } else {
     // Payment did not succeed — leave order as Pending, let the user retry
-    header('Location: /modules/cart/payment-cancel.php?order_id=' . $orderId);
+    header('Location: ' . app_url('/modules/cart/payment-cancel.php?order_id=' . $orderId));
     exit;
 }

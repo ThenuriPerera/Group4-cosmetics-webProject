@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_address'])) {
         trim($_POST['state']),
         trim($_POST['country']),
     ]);
-    header('Location: /modules/cart/checkout.php');
+    header('Location: ' . app_url('/modules/cart/checkout.php'));
     exit;
 }
 
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['continue_to_payment']
         }
 
         if (!$promoError) {
-            header('Location: /modules/cart/payment.php?address_id=' . $addressId . '&promo_id=' . ($promoId ?? ''));
+            header('Location: ' . app_url('/modules/cart/payment.php?address_id=' . $addressId . '&promo_id=' . ($promoId ?? '')));
             exit;
         }
     }

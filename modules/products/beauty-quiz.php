@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
          ON DUPLICATE KEY UPDATE skin_type = VALUES(skin_type), concern = VALUES(concern)"
     )->execute([$userId, $resultType, $concern]);
 
-    header('Location: /modules/products/index.php?skin_type_result=' . $resultType);
+    header('Location: ' . app_url('/modules/products/index.php?skin_type_result=' . $resultType));
     exit;
 }
 

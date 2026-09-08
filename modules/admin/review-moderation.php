@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['review_id'])) {
     $newStatus = $_POST['decision'] === 'approve' ? 'Approved' : 'Rejected';
     $pdo->prepare("UPDATE Review SET status = ? WHERE review_id = ?")
         ->execute([$newStatus, $_POST['review_id']]);
-    header('Location: /modules/admin/review-moderation.php');
+    header('Location: ' . app_url('/modules/admin/review-moderation.php'));
     exit;
 }
 

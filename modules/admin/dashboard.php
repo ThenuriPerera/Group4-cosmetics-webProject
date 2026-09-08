@@ -33,8 +33,8 @@ require_once __DIR__ . '/../../includes/header.php';
         <div class="stat-card"><h2><?= $pendingReviewCount ?></h2><p>Reviews Awaiting Moderation</p></div>
     </div>
 
-    <p><a href="/modules/admin/review-moderation.php">Go to Review Moderation →</a></p>
-    <p><a href="/modules/products/manage.php">Manage Products →</a></p>
+    <p><a href="<?= app_url('/modules/admin/review-moderation.php') ?>">Go to Review Moderation →</a></p>
+    <p><a href="<?= app_url('/modules/products/manage.php') ?>">Manage Products →</a></p>
 
     <h2>Trending Products</h2>
     <table class="admin-table">

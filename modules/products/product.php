@@ -31,7 +31,7 @@ $avgRating = $reviews ? array_sum(array_column($reviews, 'rating')) / count($rev
 require_once __DIR__ . '/../../includes/header.php';
 ?>
 <section class="product-detail">
-    <img src="<?= htmlspecialchars($product['image'] ?: '/assets/images/placeholder.png') ?>" alt="">
+    <img src="<?= htmlspecialchars($product['image'] ?: app_url('/assets/images/placeholder.png')) ?>" alt="">
     <div>
         <h1><?= htmlspecialchars($product['product_name']) ?></h1>
         <?php if ($avgRating): ?><p>Rating: <?= number_format($avgRating, 1) ?> / 5 (<?= count($reviews) ?> reviews)</p><?php endif; ?>
@@ -39,7 +39,7 @@ require_once __DIR__ . '/../../includes/header.php';
         <p><?= nl2br(htmlspecialchars($product['description'])) ?></p>
 
         <?php if (is_logged_in()): ?>
-            <form method="post" action="/modules/cart/cart.php">
+            <form method="post" action="<?= app_url('/modules/cart/cart.php') ?>">
                 <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
 
                 <?php if ($variants): ?>
@@ -60,12 +60,12 @@ require_once __DIR__ . '/../../includes/header.php';
                 <button type="submit" name="add_to_cart">Add to Cart</button>
             </form>
 
-            <form method="post" action="/modules/orders/wishlist.php">
+            <form method="post" action="<?= app_url('/modules/orders/wishlist.php') ?>">
                 <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
                 <button type="submit" name="add_wishlist">Add to Wishlist</button>
             </form>
         <?php else: ?>
-            <p><a href="/modules/auth/login.php">Login</a> to add this to your cart or wishlist.</p>
+            <p><a href="<?= app_url('/modules/auth/login.php') ?>">Login</a> to add this to your cart or wishlist.</p>
         <?php endif; ?>
     </div>
 </section>
@@ -81,7 +81,7 @@ require_once __DIR__ . '/../../includes/header.php';
     <?php if (empty($reviews)): ?><p>No reviews yet.</p><?php endif; ?>
 
     <?php if (is_logged_in()): ?>
-        <a href="/modules/orders/reviews.php?product_id=<?= $product['product_id'] ?>">Write a review</a>
+        <a href="<?= app_url('/modules/orders/reviews.php?product_id=' . $product['product_id']) ?>">Write a review</a>
     <?php endif; ?>
 </section>
 <?php require_once __DIR__ . '/../../includes/footer.php'; ?>

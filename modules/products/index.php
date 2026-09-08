@@ -57,7 +57,7 @@ require_once __DIR__ . '/../../includes/header.php';
         <!-- Level 1: Main Categories -->
         <div class="filter-level">
             <strong>Category</strong>
-            <a href="/modules/products/index.php" class="<?= !$categoryId ? 'active' : '' ?>">All</a>
+            <a href="<?= app_url('/modules/products/index.php') ?>" class="<?= !$categoryId ? 'active' : '' ?>">All</a>
             <?php foreach ($categories as $cat): ?>
                 <a href="?category_id=<?= $cat['category_id'] ?>" class="<?= $categoryId == $cat['category_id'] ? 'active' : '' ?>">
                     <?= htmlspecialchars($cat['category_name']) ?>
@@ -98,7 +98,7 @@ require_once __DIR__ . '/../../includes/header.php';
                 <img src="<?= htmlspecialchars($p['image'] ?: '/assets/images/placeholder.png') ?>" alt="<?= htmlspecialchars($p['product_name']) ?>">
                 <h3><?= htmlspecialchars($p['product_name']) ?></h3>
                 <p>Rs. <?= number_format($p['price'], 2) ?></p>
-                <a href="/modules/products/product.php?id=<?= $p['product_id'] ?>">View</a>
+                <a href="<?= app_url('/modules/products/product.php?id=' . $p['product_id']) ?>">View</a>
             </div>
         <?php endforeach; ?>
         <?php if (empty($products)): ?>

@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ];
 
             // First-time customers go straight into onboarding (Section 3.2)
-            header('Location: /modules/products/beauty-quiz.php?onboarding=1');
+            header('Location: ' . app_url('/modules/products/beauty-quiz.php?onboarding=1'));
             exit;
         }
     }
@@ -71,6 +71,6 @@ require_once __DIR__ . '/../../includes/header.php';
         <small>At least 8 characters, with a letter and a number.</small>
         <button type="submit">Register</button>
     </form>
-    <p>Already have an account? <a href="/modules/auth/login.php">Login</a></p>
+    <p>Already have an account? <a href="<?= app_url('/modules/auth/login.php') ?>">Login</a></p>
 </section>
 <?php require_once __DIR__ . '/../../includes/footer.php'; ?>

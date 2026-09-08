@@ -54,6 +54,8 @@ CREATE TABLE Product (
     description TEXT,
     skin_tone VARCHAR(50),
     skin_type VARCHAR(50),
+    sub_category VARCHAR(80),
+    product_type VARCHAR(80),
     FOREIGN KEY (category_id) REFERENCES Category(category_id),
     FOREIGN KEY (brand_id) REFERENCES Brand(brand_id)
 );
@@ -207,5 +209,6 @@ INSERT INTO Brand (brand_name, manufacturer_country) VALUES
 ('Glow Basics','Sri Lanka'),
 ('Pure Derm','South Korea');
 
+-- Default password is "Admin@123" (bcrypt hash below) — change it after first login.
 INSERT INTO User (name, email, phone, password, role) VALUES
-('Admin User','admin@lumineglow.com','0770000000', '$2y$10$examplehashexamplehashexamplehas', 'admin');
+('Admin User','admin@lumineglow.com','0770000000', '$2y$10$w1mZZdPia/Gqj64CRvMgP.X.4wOToMRhtCtoPcrpWopGsmyPvmG9e', 'admin');
