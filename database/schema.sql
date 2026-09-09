@@ -208,4 +208,10 @@ INSERT INTO Brand (brand_name, manufacturer_country) VALUES
 ('Pure Derm','South Korea');
 
 INSERT INTO User (name, email, phone, password, role) VALUES
-('Admin User','admin@lumineglow.com','0770000000', '$2y$10$examplehashexamplehashexamplehas', 'admin');
+('Admin User','admin@lumineglow.com','0770000000', '123456789', 'admin');
+
+ALTER TABLE Product
+ADD COLUMN sub_category VARCHAR(100) DEFAULT NULL;
+
+ALTER TABLE Product
+ADD COLUMN product_type VARCHAR(100) DEFAULT NULL;
