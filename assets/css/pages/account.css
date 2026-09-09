@@ -1,0 +1,17 @@
+/* Profile/address columns, order timelines, wishlist and reviews. */
+.profile-grid { display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:start; }
+.address-card { margin:14px 0; background:#fffaf6; }
+.address-card p { font-size:.95rem; }
+.address-card a { font-size:.875rem; }
+.order-card { box-shadow:0 3px 16px #2c252705; }
+.order-card>p:first-child { display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:1.1rem; }
+.order-card>p { color:var(--muted); }
+.order-card strong { color:var(--ink); }
+.shipment-info { padding:20px; background:#fbf1ee; border-radius:6px; margin:20px 0; }
+.shipment-info p { margin-bottom:8px; }
+.history-timeline { list-style:none; border-left:2px solid var(--blush); padding:0 0 0 24px; margin:18px 0 24px 6px; }
+.history-timeline li { padding:10px 0; color:var(--muted); font-size:.95rem; }
+.reviews>form { max-width:720px; padding:28px; border:1px solid var(--line); background:white; border-radius:8px; }
+.wishlist-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
+.wishlist-actions form { margin:0; }
+@media(max-width:780px) { .profile-grid { grid-template-columns:1fr; } }

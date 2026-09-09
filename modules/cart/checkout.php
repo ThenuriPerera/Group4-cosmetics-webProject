@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_address'])) {
         trim($_POST['state']),
         trim($_POST['country']),
     ]);
-    header('Location: /modules/cart/checkout.php');
+    header('Location: ' . lg_url('/modules/cart/checkout.php'));
     exit;
 }
 
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['continue_to_payment']
         }
 
         if (!$promoError) {
-            header('Location: /modules/cart/payment.php?address_id=' . $addressId . '&promo_id=' . ($promoId ?? ''));
+            header('Location: ' . lg_url('/modules/cart/payment.php?address_id=') . $addressId . '&promo_id=' . ($promoId ?? ''));
             exit;
         }
     }
@@ -59,39 +59,8 @@ $addresses = $pdo->prepare("SELECT * FROM Address WHERE user_id = ?");
 $addresses->execute([$userId]);
 $addresses = $addresses->fetchAll();
 
+// Presentation is kept in views/cart/checkout.view.php.
+$pageKey = 'cart/checkout';
 require_once __DIR__ . '/../../includes/header.php';
-?>
-<section class="checkout-page">
-    <h1>Checkout</h1>
-    <?php if ($promoError): ?><p class="error"><?= htmlspecialchars($promoError) ?></p><?php endif; ?>
-
-    <form method="post">
-        <h2>Delivery Address</h2>
-        <?php if ($addresses): ?>
-            <?php foreach ($addresses as $addr): ?>
-                <label>
-                    <input type="radio" name="address_id" value="<?= $addr['address_id'] ?>" required>
-                    <?= htmlspecialchars("{$addr['street']}, {$addr['city']}, {$addr['country']}") ?>
-                </label><br>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>No saved addresses yet — add one below.</p>
-        <?php endif; ?>
-
-        <h2>Promo Code</h2>
-        <input type="text" name="promo_code" placeholder="Enter code (optional)">
-
-        <button type="submit" name="continue_to_payment">Continue to Payment</button>
-    </form>
-
-    <h3>Add New Address</h3>
-    <form method="post">
-        <label>Street <input type="text" name="street" required></label>
-        <label>City <input type="text" name="city" required></label>
-        <label>State/Province <input type="text" name="state"></label>
-        <label>Postal Code <input type="text" name="postal_code"></label>
-        <label>Country <input type="text" name="country" required></label>
-        <button type="submit" name="add_address">Add Address</button>
-    </form>
-</section>
-<?php require_once __DIR__ . '/../../includes/footer.php'; ?>
+require __DIR__ . '/../../views/cart/checkout.view.php';
+require_once __DIR__ . '/../../includes/footer.php';

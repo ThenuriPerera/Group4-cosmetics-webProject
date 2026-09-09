@@ -1,84 +1,47 @@
-# Luminé Glow — Cosmetic E-Commerce System
-Group 04 | Web Application Development | 2024/2025
+# Luminé Glow — Group 04
 
-Vanilla HTML5, CSS3, JavaScript, PHP 8, MySQL — no frameworks.
+Vanilla HTML, CSS, JavaScript, PHP and MySQL. No frameworks or new external APIs.
 
-## Module Ownership (matches Section 8 entities)
+## Start with WAMP
 
-| Member | Module | Folder(s) | Tables owned |
-|---|---|---|---|
-| K.M.S.R.Dissanayaka | Auth & User Management | `modules/auth/`, `includes/auth.php` | User, Address |
-| V.H.M.Dananjalie | Product Catalog & Smart Features | `modules/products/` | Product, Product_Variant, Category, Brand, Skin_Quiz, Beauty_Profile |
-| K.A.D.T.N.Perera | Cart, Checkout & Payment | `modules/cart/` | Cart, Cart_Item, Order, Order_Item, Payment, Promo_Code |
-| I.P.T Aravindi | Orders, Reviews, Wishlist & Admin | `modules/orders/`, `modules/admin/` | Order_History, Shipment, Courier, Review, Wishlist |
+1. Back up your current folder and database.
+2. Extract this complete project into C:\wamp64\www\test\Group4-cosmetics-webProject.
+3. Keep your locally working config/db.php settings if they differ from this archive.
+4. Start WAMP, wait for a green icon, then open:
+   http://localhost/test/Group4-cosmetics-webProject/index.php
+5. Press Ctrl+F5 to reload cached styles.
 
-Shared files (`config/db.php`, `includes/header.php`, `includes/footer.php`, `assets/css/style.css`,
-`assets/js/main.js`, `database/schema.sql`) — edit carefully, pull before you touch these.
+Use a clean folder for this version: page templates and styles have been reorganized. You do not need to edit hardcoded URL prefixes or set up a virtual host. Do not import either design reference's database over your existing database.
 
-## Local Setup (each member)
+## Where to work
 
-1. Install XAMPP (or MAMP/WAMP) — gives you Apache, PHP, MySQL.
-2. Clone the repo into `htdocs/lumine-glow`.
-3. Start Apache + MySQL in XAMPP control panel.
-4. Open `http://localhost/phpmyadmin`, create a database, then import `database/schema.sql`.
-5. Visit `http://localhost/lumine-glow/index.php`.
+| Folder | Responsibility |
+| --- | --- |
+| `modules/` | Existing PHP entry points: form handling, database queries and redirects |
+| `views/` | Complete HTML/PHP template for each page |
+| `layouts/` | Shared document header, navigation, breadcrumbs and footer |
+| `config/pages.php` | Page title, description, stylesheet and script mapping |
+| `config/paths.php` | WAMP folder-aware links and image URL helper |
+| `includes/` | Existing authentication and Stripe helpers; layout entry points |
+| `assets/css/base.css` | Colours and typography |
+| `assets/css/layout.css` | Shared header, page layout and footer |
+| `assets/css/components.css` | Forms, buttons, tables, cards and feedback |
+| `assets/css/pages/` | Home, auth, catalogue, beauty, account, shopping and admin styling |
+| `assets/js/main.js` | Shared mobile navigation and page behaviour |
+| `assets/js/pages/` | Cart, quiz and shade-finder behaviour |
+| `assets/images/dp.png` | Your reference project's hero image |
+| `database/` | Original schema, retained unchanged |
+| `docs/` | File map, debugging order and validation report |
+| `tools/` | Read-only checks you can run locally |
 
-## Git Workflow (one repo, 4 collaborators, individually visible commits)
+Read docs/FILE-MAP.md to find a particular page, and docs/DEBUGGING.md when something fails.
 
-**Setup (once, done by whoever creates the repo on GitHub):**
-```
-git init
-git add .
-git commit -m "Initial project skeleton"
-git branch -M main
-git remote add origin https://github.com/<owner>/lumine-glow.git
-git push -u origin main
-```
-Then on GitHub: **Settings → Collaborators** → add the other 3 members' GitHub usernames
-(or make it an Organization repo and add everyone as a team — either works for lecturer commit checks).
+## Working rules
 
-**Every other member, once:**
-```
-git clone https://github.com/<owner>/lumine-glow.git
-cd lumine-glow
-```
+Keep processing in modules and markup in views. Keep styles in the matching CSS file. Keep page scripts in assets/js/pages. Do not duplicate full headers, copy large inline style blocks, or add page scripts inside templates.
 
-**Daily workflow — use a feature branch per person/feature, don't commit straight to `main`:**
-```
-git checkout main
-git pull origin main
-git checkout -b feature/auth-login          # e.g. feature/cart-checkout, feature/reviews
+The existing modules URLs remain valid. Payment callbacks, logout and cart-ajax.php are action endpoints; they do not have independent display templates. Existing Git history is retained. No commits were made or pushed.
 
-# ...edit your module's files...
+## Status
 
-git add modules/auth/login.php
-git commit -m "auth: add login validation and session role redirect"
-git push origin feature/auth-login
-```
-Then open a Pull Request on GitHub into `main`, and merge once reviewed (even a self-review is fine for
-a class project — the point is the commit history shows individual authorship).
-
-**Commit message convention** (so the lecturer can tell who did what at a glance):
-```
-<module>: <what changed>
-
-auth: hash passwords with password_hash()
-products: implement 3-level category filter
-cart: add AJAX quantity update
-orders: build order history timeline UI
-```
-
-**Rules to avoid conflicts:**
-- Stay inside your own `modules/<yourmodule>/` folder as much as possible.
-- If you need to touch a shared file (`db.php`, `header.php`, `style.css`, `schema.sql`), `git pull`
-  right before, make a small focused change, and push quickly — don't sit on shared-file edits for days.
-- Each member should have **commits every work session**, not one giant commit at the end — that's usually
-  what "checking commits" is verifying (real, incremental individual contribution).
-- Pull before you push, always: `git pull origin main --rebase` if you get conflicts.
-
-## What's already scaffolded vs. what's TODO
-
-Every file under `modules/` has a `TODO` comment block at the top marking what that member still needs to
-build (validation, AJAX, real payment API calls, admin charts, etc). The skeleton runs end-to-end
-(register → browse → add to cart → checkout → mock payment → order created) so you can each build on
-top of a working base instead of empty files.
+All 18 display templates (home plus 17 module pages) use the reference design system. Original processing is preserved. Known backend defects, including the duplicate wishlist handler, are documented rather than silently changed. This is a frontend redesign and file reorganization, not a claim that all assignment features are complete.

@@ -1,0 +1,33 @@
+/* Home — supplied reference hero, categories and product collection. */
+.hero { position:relative; display:flex; align-items:center; min-height:590px; padding:7% 8%; background:#f6e9e7 url('../../images/dp.png') center/cover no-repeat; }
+.hero-overlay { position:absolute; inset:0; background:linear-gradient(to right,#fffaf6eb 0%,#fffaf6cc 35%,#fffaf64d 65%,#fffaf60d); }
+.hero-content { position:relative; max-width:590px; }
+.hero h1 { font-size:clamp(3.25rem,7vw,5.75rem); margin-bottom:25px; }
+.hero h1 em { color:var(--rose-text); }
+.hero-content>p:not(.eyebrow) { color:#4a4345; max-width:480px; font-size:1.06rem; line-height:1.8; }
+.hero-buttons { display:flex; gap:14px; flex-wrap:wrap; margin-top:32px; }
+.section { padding:56px 7%; max-width:1400px; margin:auto; }
+.section.soft { background:#fbf3f0; }
+.section-heading { display:flex; justify-content:space-between; align-items:end; gap:24px; margin-bottom:30px; }
+.section-heading h2 { margin-bottom:0; }
+.section-heading>a { font-size:.9rem; white-space:nowrap; }
+.category-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+.category-card { display:flex; flex-direction:column; justify-content:flex-end; min-height:195px; padding:28px; border:1px solid var(--line); border-radius:8px; background:white; color:var(--ink); }
+.category-card:hover { text-decoration:none; border-color:var(--rose); }
+.category-card>span { font-size:.8rem; color:#856332; letter-spacing:.08em; }
+.category-card h3 { font:1.8rem var(--serif); margin:8px 0; }
+.category-card p { color:var(--muted); font-size:.9rem; margin:0; }
+.quiz-banner { display:flex; justify-content:space-between; align-items:center; gap:32px; padding:50px 7%; background:var(--blush); }
+.quiz-banner h2 { max-width:640px; margin:0; }
+.quiz-banner .btn { flex-shrink:0; }
+@media(max-width:800px) { .category-grid { grid-template-columns:1fr 1fr; } .quiz-banner { flex-direction:column; align-items:flex-start; } }
+@media(max-width:520px) {
+ .hero { min-height:680px; align-items:flex-start; padding:40px 24px 280px; background-position:62% bottom; }
+ .hero-overlay { background:linear-gradient(to bottom,#fffaf6 0%,#fffaf6ed 42%,#fffaf620 72%); }
+ .hero h1 { font-size:2.9rem; }
+ .hero-buttons { gap:10px; }
+ .hero-buttons .btn { flex:1; min-width:0; padding:12px; }
+ .category-card { padding:18px; min-height:160px; }
+ .category-card h3 { font-size:1.5rem; overflow-wrap:anywhere; }
+ .section { padding:38px 20px; }
+}

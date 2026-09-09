@@ -74,8 +74,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_stripe_checkout
     $baseUrl = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
     $postFields = [
         'mode' => 'payment',
-        'success_url' => $baseUrl . '/modules/cart/payment-success.php?order_id=' . $orderId . '&session_id={CHECKOUT_SESSION_ID}',
-        'cancel_url' => $baseUrl . '/modules/cart/payment-cancel.php?order_id=' . $orderId,
+        'success_url' => $baseUrl . lg_url('/modules/cart/payment-success.php?order_id=') . $orderId . '&session_id={CHECKOUT_SESSION_ID}',
+        'cancel_url' => $baseUrl . lg_url('/modules/cart/payment-cancel.php?order_id=') . $orderId,
         'metadata' => ['order_id' => $orderId, 'user_id' => $userId],
     ];
 
@@ -99,18 +99,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_stripe_checkout
     }
 }
 
+// Presentation is kept in views/cart/payment.view.php.
+$pageKey = 'cart/payment';
 require_once __DIR__ . '/../../includes/header.php';
-?>
-<section class="payment-page">
-    <h1>Payment</h1>
-    <?php if ($discountPct > 0): ?>
-        <p>Subtotal: Rs. <?= number_format($total, 2) ?> — Promo discount: <?= $discountPct ?>%</p>
-    <?php endif; ?>
-    <p>Order Total: Rs. <?= number_format($discountedTotal, 2) ?></p>
-    <p>You'll be redirected to Stripe's secure checkout page (test mode — use card <code>4242 4242 4242 4242</code>, any future date, any CVC).</p>
-
-    <form method="post">
-        <button type="submit" name="start_stripe_checkout">Pay with Stripe</button>
-    </form>
-</section>
-<?php require_once __DIR__ . '/../../includes/footer.php'; ?>
+require __DIR__ . '/../../views/cart/payment.view.php';
+require_once __DIR__ . '/../../includes/footer.php';

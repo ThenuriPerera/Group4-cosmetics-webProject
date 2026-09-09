@@ -7,14 +7,8 @@ require_once __DIR__ . '/../../includes/auth.php';
 require_login();
 
 $orderId = $_GET['order_id'] ?? null;
+// Presentation is kept in views/cart/payment-cancel.view.php.
+$pageKey = 'cart/payment-cancel';
 require_once __DIR__ . '/../../includes/header.php';
-?>
-<section class="payment-page">
-    <h1>Payment Cancelled</h1>
-    <p>Your payment was not completed. No charge was made, and your cart items are still saved.</p>
-    <?php if ($orderId): ?>
-        <a class="btn" href="/modules/cart/checkout.php">Try Again</a>
-    <?php endif; ?>
-    <a href="/modules/cart/cart.php">Back to Cart</a>
-</section>
-<?php require_once __DIR__ . '/../../includes/footer.php'; ?>
+require __DIR__ . '/../../views/cart/payment-cancel.view.php';
+require_once __DIR__ . '/../../includes/footer.php';

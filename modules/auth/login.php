@@ -34,13 +34,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Otherwise route by role
         switch ($user['role']) {
             case 'admin':
-                header('Location: /modules/admin/dashboard.php');
+                header('Location: ' . lg_url('/modules/admin/dashboard.php'));
                 break;
             case 'editor':
-                header('Location: /modules/products/manage.php');
+                header('Location: ' . lg_url('/modules/products/manage.php'));
                 break;
             default:
-                header('Location: /index.php');
+                header('Location: ' . lg_url('/index.php'));
         }
         exit;
     } else {
@@ -48,16 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+// Presentation is kept in views/auth/login.view.php.
+$pageKey = 'auth/login';
 require_once __DIR__ . '/../../includes/header.php';
-?>
-<section class="auth-form">
-    <h1>Login</h1>
-    <?php if ($error): ?><p class="error"><?= htmlspecialchars($error) ?></p><?php endif; ?>
-    <form method="post">
-        <label>Email <input type="email" name="email" required></label>
-        <label>Password <input type="password" name="password" required></label>
-        <button type="submit">Login</button>
-    </form>
-    <p>No account? <a href="/modules/auth/register.php">Register</a></p>
-</section>
-<?php require_once __DIR__ . '/../../includes/footer.php'; ?>
+require __DIR__ . '/../../views/auth/login.view.php';
+require_once __DIR__ . '/../../includes/footer.php';

@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['review_id'])) {
     $newStatus = $_POST['decision'] === 'approve' ? 'Approved' : 'Rejected';
     $pdo->prepare("UPDATE Review SET status = ? WHERE review_id = ?")
         ->execute([$newStatus, $_POST['review_id']]);
-    header('Location: /modules/admin/review-moderation.php');
+    header('Location: ' . lg_url('/modules/admin/review-moderation.php'));
     exit;
 }
 
@@ -20,22 +20,8 @@ $stmt = $pdo->query(
 );
 $pendingReviews = $stmt->fetchAll();
 
+// Presentation is kept in views/admin/review-moderation.view.php.
+$pageKey = 'admin/review-moderation';
 require_once __DIR__ . '/../../includes/header.php';
-?>
-<section class="admin-reviews">
-    <h1>Review Moderation</h1>
-    <?php foreach ($pendingReviews as $r): ?>
-        <div class="review">
-            <strong><?= htmlspecialchars($r['user_name']) ?></strong> on
-            <strong><?= htmlspecialchars($r['product_name']) ?></strong> — <?= $r['rating'] ?>/5
-            <p><?= htmlspecialchars($r['comment']) ?></p>
-            <form method="post" style="display:inline">
-                <input type="hidden" name="review_id" value="<?= $r['review_id'] ?>">
-                <button type="submit" name="decision" value="approve">Approve</button>
-                <button type="submit" name="decision" value="reject">Reject</button>
-            </form>
-        </div>
-    <?php endforeach; ?>
-    <?php if (empty($pendingReviews)): ?><p>No pending reviews.</p><?php endif; ?>
-</section>
-<?php require_once __DIR__ . '/../../includes/footer.php'; ?> 
+require __DIR__ . '/../../views/admin/review-moderation.view.php';
+require_once __DIR__ . '/../../includes/footer.php';
