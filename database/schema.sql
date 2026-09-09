@@ -207,8 +207,8 @@ INSERT INTO Brand (brand_name, manufacturer_country) VALUES
 ('Glow Basics','Sri Lanka'),
 ('Pure Derm','South Korea');
 
-INSERT INTO User (name, email, phone, password, role) VALUES
-('Admin User','admin@lumineglow.com','0770000000', '123456789', 'admin');
+-- Admin user is seeded via tools/seed-admin.php (password must be hashed in PHP).
+-- Do NOT insert plain-text passwords here — password_verify() will reject them.
 
 ALTER TABLE Product
 ADD COLUMN sub_category VARCHAR(100) DEFAULT NULL;
