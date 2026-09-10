@@ -1,12 +1,17 @@
-/* Compatibility entry point. The shared header loads only the current page's CSS.
-   Edit the named files below rather than adding overrides to this manifest. */
-@import url('./base.css');
-@import url('./layout.css');
-@import url('./components.css');
-@import url('./pages/home.css');
-@import url('./pages/auth.css');
-@import url('./pages/catalogue.css');
-@import url('./pages/beauty.css');
-@import url('./pages/account.css');
-@import url('./pages/shopping.css');
-@import url('./pages/admin.css');
+/*
+ * Shared stylesheet for every page.
+ *
+ * Keep these imports first.
+ * Page-specific CSS loads separately after this file.
+ */
+
+@import url("./base.css");
+@import url("./layout.css");
+@import url("./components.css");
+
+/*
+ * Add shared custom CSS below this comment.
+ *
+ * For changes affecting only one page family, edit its file in:
+ * assets/css/pages/
+ */
