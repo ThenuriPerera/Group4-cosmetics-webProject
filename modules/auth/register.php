@@ -52,25 +52,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ];
 
             // First-time customers go straight into onboarding (Section 3.2)
-            header('Location: /modules/products/beauty-quiz.php?onboarding=1');
+            header('Location: ' . lg_url('/modules/products/beauty-quiz.php?onboarding=1'));
             exit;
         }
     }
 }
 
+// Presentation is kept in views/auth/register.view.php.
+$pageKey = 'auth/register';
 require_once __DIR__ . '/../../includes/header.php';
-?>
-<section class="auth-form">
-    <h1>Create Account</h1>
-    <?php if ($error): ?><p class="error"><?= htmlspecialchars($error) ?></p><?php endif; ?>
-    <form method="post">
-        <label>Name <input type="text" name="name" value="<?= htmlspecialchars($old['name']) ?>" required></label>
-        <label>Email <input type="email" name="email" value="<?= htmlspecialchars($old['email']) ?>" required></label>
-        <label>Phone <input type="tel" name="phone" value="<?= htmlspecialchars($old['phone']) ?>"></label>
-        <label>Password <input type="password" name="password" required minlength="8"></label>
-        <small>At least 8 characters, with a letter and a number.</small>
-        <button type="submit">Register</button>
-    </form>
-    <p>Already have an account? <a href="/modules/auth/login.php">Login</a></p>
-</section>
-<?php require_once __DIR__ . '/../../includes/footer.php'; ?>
+require __DIR__ . '/../../views/auth/register.view.php';
+require_once __DIR__ . '/../../includes/footer.php';

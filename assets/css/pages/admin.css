@@ -1,0 +1,21 @@
+/* Store workspace: reference palette, clear sections, compact management tables. */
+.admin-shell { display:grid; grid-template-columns:195px minmax(0,1fr); gap:28px; align-items:start; }
+.admin-sidebar { padding:22px; border:1px solid var(--line); background:white; border-radius:8px; }
+.admin-sidebar>a { display:block; font-size:.9rem; padding:12px 0; border-bottom:1px solid var(--line); }
+.admin-sidebar>a:last-child { border:0; }
+.admin-sidebar>a[aria-current=page] { color:var(--ink); font-weight:600; }
+.admin-content { min-width:0; }
+.stats-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; margin:0 0 30px; }
+.stat-card { padding:25px; border:1px solid var(--line); border-radius:8px; background:white; }
+.stat-card h2 { font-size:2rem; color:var(--rose-text); }
+.stat-card p { color:var(--muted); margin:0; font-size:.9rem; }
+.admin-dashboard>h2 { margin-top:34px; }
+.admin-dashboard>p { display:inline-block; margin:0 20px 12px 0; }
+.admin-products>form { display:grid; grid-template-columns:1fr 1fr; column-gap:22px; padding:28px; background:white; border:1px solid var(--line); border-radius:8px; margin-bottom:38px; }
+.admin-products>form label:has(textarea) { grid-column:1/-1; }
+.admin-products>form button { justify-self:start; align-self:end; }
+.admin-products h2 { font-size:1.8rem; }
+.admin-reviews .review { margin-top:0; }
+.admin-reviews button[value=reject] { background:transparent; color:var(--rose-text); }
+@media(max-width:850px) { .admin-shell { grid-template-columns:1fr; } .admin-sidebar { display:flex; flex-wrap:wrap; gap:12px 22px; align-items:center; } .admin-sidebar .eyebrow { width:100%; margin:0; } .admin-sidebar>a { border:0; } }
+@media(max-width:540px) { .admin-products>form { grid-template-columns:1fr; padding:20px; } .stats-grid { grid-template-columns:1fr; } }

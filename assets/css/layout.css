@@ -1,0 +1,40 @@
+/* 2. Shared page shell, navigation and footer. */
+.site-header { display:flex; justify-content:space-between; align-items:center; gap:28px; padding:24px 6%; background:white; border-bottom:1px solid var(--line); }
+.logo { flex-shrink:0; color:var(--ink); font:500 1.85rem var(--serif); letter-spacing:-.04em; }
+.logo span { color:var(--rose-text); font-style:italic; }
+.logo:hover { text-decoration:none; }
+#main-nav { display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:22px; font-size:.9rem; }
+#main-nav a { color:var(--ink); }
+#main-nav a.active { color:var(--rose-text); text-decoration:underline; }
+.bag { font-weight:600; border-left:1px solid var(--line); padding-left:20px; }
+.menu-toggle { display:none; border:1px solid var(--line); color:var(--ink); background:white; border-radius:4px; min-height:44px; padding:8px 14px; }
+.skip-link { position:absolute; top:-100px; left:16px; padding:12px; background:white; z-index:100; }
+.skip-link:focus { top:12px; }
+.site-main { max-width:1240px; margin:auto; padding:28px 28px 72px; min-height:60vh; }
+.page-home .site-main { max-width:none; padding:0; }
+.breadcrumbs { display:flex; flex-wrap:wrap; gap:12px; font-size:.875rem; color:var(--muted); margin:0 0 30px; }
+.page-heading { margin-bottom:32px; }
+.page-heading > p:last-child { color:var(--muted); max-width:640px; }
+.page-heading h1 { margin-bottom:14px; }
+.section-nav { display:flex; flex-wrap:wrap; gap:12px; padding-bottom:20px; margin-bottom:30px; border-bottom:1px solid var(--line); }
+.section-nav a { padding:9px 16px; background:white; border:1px solid var(--line); border-radius:4px; font-size:.9rem; }
+.section-nav a[aria-current=page] { background:var(--blush); color:var(--ink); }
+.site-footer { display:grid; grid-template-columns:2fr 1fr 1fr; gap:36px; background:var(--dark); color:white; padding:46px 7% 22px; }
+.site-footer .logo { color:white; }
+.site-footer .logo span { color:#e2b8be; }
+.site-footer a:not(.logo) { display:block; color:#eedbdd; font-size:.9rem; margin-top:10px; }
+.site-footer p { color:#d8c9cd; margin-top:18px; }
+.copyright { grid-column:1/-1; font-size:.85rem; border-top:1px solid #ffffff25; padding-top:20px; }
+@media(max-width:900px) {
+ .site-header { flex-wrap:wrap; padding:20px; }
+ .menu-toggle { display:block; margin-left:auto; }
+ #main-nav { flex-basis:100%; justify-content:flex-start; gap:18px; padding:12px 0; }
+ .js #main-nav:not(.is-open) { display:none; }
+ .site-main { padding:24px 20px 48px; }
+}
+@media(max-width:540px) {
+ .site-footer { grid-template-columns:1fr 1fr; padding:36px 22px 20px; gap:24px; }
+ .site-footer>div:first-child { grid-column:1/-1; }
+ .section-nav { gap:8px; }
+ .section-nav a { padding:8px 10px; }
+}

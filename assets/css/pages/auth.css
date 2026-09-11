@@ -1,0 +1,11 @@
+/* Sign-in and registration — reference gradient and centred card. */
+.page-auth .site-main { max-width:none; padding:52px 20px; background:linear-gradient(135deg,#f3dfdd,#fffaf6); display:grid; place-items:center; }
+.auth-form { width:100%; max-width:480px; padding:42px 38px; background:white; border:1px solid #b76d7818; border-radius:16px; box-shadow:0 20px 60px #2c25271f; }
+.auth-header { text-align:center; margin-bottom:30px; }
+.auth-header h1 { font-size:2.2rem; margin-bottom:10px; }
+.auth-header>p:last-child { color:var(--muted); font-size:.95rem; }
+.auth-mark { width:58px; height:58px; display:grid; place-items:center; margin:0 auto 20px; border-radius:50%; background:linear-gradient(135deg,var(--blush),var(--rose)); color:var(--dark); font:1.6rem var(--serif); }
+.auth-form form>button { width:100%; margin-top:20px; }
+.auth-form>p:last-child { text-align:center; padding-top:22px; margin-top:22px; border-top:1px solid var(--line); font-size:.9rem; }
+.auth-form small { display:block; margin-top:-8px; }
+@media(max-width:520px) { .auth-form { padding:30px 22px; } }

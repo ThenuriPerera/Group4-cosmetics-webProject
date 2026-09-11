@@ -1,0 +1,26 @@
+/* 1. Reference colours, typography and basic elements. */
+:root {
+ --ink:#2c2527; --muted:#766c6f; --cream:#fffaf6; --blush:#f2d9d9;
+ --rose:#b76d78; --rose-text:#924e5b; --gold:#c9a46c; --white:#fff;
+ --line:#eadfdb; --dark:#312b2d; --error:#a02c40; --success:#316847;
+ --shadow:0 12px 36px rgba(44,37,39,.07); --radius:8px;
+ --serif:Georgia,'Times New Roman',serif; --sans:Arial,'Segoe UI',sans-serif;
+}
+* { box-sizing:border-box; }
+body { margin:0; font:16px/1.65 var(--sans); color:var(--ink); background:var(--cream); }
+h1,h2,h3,p { margin:0 0 1rem; }
+h1,h2 { font-family:var(--serif); font-weight:400; line-height:1.18; }
+h1 { font-size:clamp(2.2rem,4vw,3.4rem); letter-spacing:-.035em; }
+h2 { font-size:clamp(1.7rem,2.6vw,2.35rem); }
+h3 { font-size:1.08rem; line-height:1.4; }
+a { color:var(--rose-text); text-decoration:none; text-underline-offset:4px; }
+a:hover { text-decoration:underline; }
+button,input,select,textarea { font:inherit; }
+button { cursor:pointer; }
+img { display:block; max-width:100%; }
+:focus-visible { outline:3px solid var(--rose); outline-offset:4px; }
+[hidden] { display:none!important; }
+small { font-size:.875rem; color:var(--muted); }
+.eyebrow { font-size:.8rem; letter-spacing:.18em; font-weight:600; color:var(--rose-text); margin-bottom:12px; }
+.price { font-weight:600; color:var(--rose-text); }
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { transition:none!important; animation:none!important; scroll-behavior:auto!important; } }
