@@ -94,9 +94,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_stripe_checkout
     if (isset($session['url'])) {
         header('Location: ' . $session['url']);
         exit;
-    } else {
-        die('Stripe error: ' . htmlspecialchars($session['error']['message'] ?? 'Unknown error'));
     }
+
+    $errorMessage = $session['error']['message'] ?? ($session['message'] ?? json_encode($session, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+    die('Stripe error: ' . htmlspecialchars($errorMessage));
 }
 
 // Presentation is kept in views/cart/payment.view.php.
