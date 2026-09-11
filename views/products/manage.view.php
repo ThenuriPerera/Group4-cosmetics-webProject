@@ -4,7 +4,7 @@
     <?php if ($message): ?><p class="success"><?= htmlspecialchars($message) ?></p><?php endif; ?>
 
     <h2><?= $editProduct ? 'Edit Product' : 'Add New Product' ?></h2>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <?php if ($editProduct): ?>
             <input type="hidden" name="product_id" value="<?= $editProduct['product_id'] ?>">
         <?php endif; ?>
@@ -47,7 +47,16 @@
         </label>
         <label>Sub-Category (Level 2, e.g. "Face", "Cleansers") <input type="text" name="sub_category" value="<?= htmlspecialchars($editProduct['sub_category'] ?? '') ?>"></label>
         <label>Product Type (Level 3, e.g. "Foundation", "Gel Cleanser") <input type="text" name="product_type" value="<?= htmlspecialchars($editProduct['product_type'] ?? '') ?>"></label>
-        <label>Image URL <input type="text" name="image" value="<?= htmlspecialchars($editProduct['image'] ?? '') ?>" placeholder="/assets/images/product.jpg"></label>
+        <label>Product Image
+    <input type="file" name="image_file" accept="image/*">
+    <?php if (!empty($editProduct['image'])): ?>
+        <div style="margin-top: 8px;">
+            <small>Current image:</small><br>
+            <img src="<?= htmlspecialchars(LG_BASE_PATH, ENT_QUOTES, 'UTF-8') ?>/assets/images/products/<?= htmlspecialchars($editProduct['image']) ?>" 
+                 style="max-width: 120px; border-radius: 8px; margin-top: 4px;">
+        </div>
+    <?php endif; ?>
+   </label>
         <label>Description <textarea name="description"><?= htmlspecialchars($editProduct['description'] ?? '') ?></textarea></label>
         <button type="submit" name="save_product"><?= $editProduct ? 'Update' : 'Add' ?> Product</button>
         <?php if ($editProduct): ?><a href="<?= htmlspecialchars(LG_BASE_PATH, ENT_QUOTES, 'UTF-8') ?>/modules/products/manage.php">Cancel</a><?php endif; ?>

@@ -100,5 +100,10 @@ function lg_image_url(array $product)
         return $value;
     }
 
+    // Bare filename (no slashes) = uploaded product image
+    if (strpos($value, '/') === false) {
+        return lg_url('assets/images/products/' . $value);
+    }
+
     return lg_url($value);
 }

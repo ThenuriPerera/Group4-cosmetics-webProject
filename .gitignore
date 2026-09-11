@@ -13,3 +13,7 @@ uploads/*
 
 # XAMPP / logs
 *.log
+
+# Ignore uploaded product images but keep the folder
+assets/images/products/*
+!assets/images/products/.gitkeep
