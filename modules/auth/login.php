@@ -18,15 +18,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($user && $user['status'] === 'suspended') {
         $error = 'This account has been suspended. Contact support.';
-    } elseif ($user && password_verify($password, $user['password'])) {
+        } elseif ($user && password_verify($password, $user['password'])) {
+        
+        // SECURITY FIX 1: Prevent Session Fixation
+        // Assigns a brand new session ID so attackers can't hijack a pre-set ID
+        session_regenerate_id(true);
+
         $_SESSION['user'] = [
             'user_id' => $user['user_id'],
             'name'    => $user['name'],
             'role'    => $user['role'],
         ];
 
-        // Explicit redirect param wins if it was set (e.g. require_login() bounced them here)
-        if (!empty($_GET['redirect'])) {
+        // SECURITY FIX 2: Prevent Open Redirects
+        // Only redirect if the path is internal (starts with '/')
+        if (!empty($_GET['redirect']) && strpos($_GET['redirect'], '/') === 0) {
             header('Location: ' . $_GET['redirect']);
             exit;
         }
