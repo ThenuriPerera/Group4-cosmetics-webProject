@@ -2,39 +2,62 @@
 
 require_once __DIR__ . '/../config/db.php';
 
-$email = 'editor@lumineglow.com';
-$password = 'Editor@123';
-$role = 'editor';
+$editorName = 'Lumine Glow Editor';
+$editorEmail = 'editor@lumineglow.com';
+$editorPassword = 'Editor@123';
+$editorRole = 'editor';
 
 try {
-    // Check whether this email already exists
-    $check = $pdo->prepare("SELECT user_id FROM `user` WHERE email = ?");
-    $check->execute([$email]);
-
-    if ($check->fetch()) {
-        die("Editor account already exists: $email");
-    }
-
-    // Hash the password
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-    // Create Editor account
-    $stmt = $pdo->prepare("
-        INSERT INTO `user` (email, password, role)
-        VALUES (?, ?, ?)
+    $check = $pdo->prepare("
+        SELECT user_id
+        FROM `User`
+        WHERE email = ?
+        LIMIT 1
     ");
 
-    $stmt->execute([
-        $email,
+    $check->execute([$editorEmail]);
+
+    if ($check->fetch()) {
+        die(
+            'Editor account already exists: ' .
+            htmlspecialchars($editorEmail)
+        );
+    }
+
+    $hashedPassword = password_hash(
+        $editorPassword,
+        PASSWORD_DEFAULT
+    );
+
+    $insert = $pdo->prepare("
+        INSERT INTO `User`
+            (name, email, password, role, status)
+        VALUES
+            (?, ?, ?, ?, 'active')
+    ");
+
+    $insert->execute([
+        $editorName,
+        $editorEmail,
         $hashedPassword,
-        $role
+        $editorRole
     ]);
 
-    echo "Editor account created successfully!<br>";
-    echo "Email: " . htmlspecialchars($email) . "<br>";
-    echo "Password: " . htmlspecialchars($password) . "<br>";
-    echo "Role: editor";
+    echo '<h2>Editor account created successfully!</h2>';
+    echo '<p>Name: ' .
+        htmlspecialchars($editorName) .
+        '</p>';
+    echo '<p>Email: ' .
+        htmlspecialchars($editorEmail) .
+        '</p>';
+    echo '<p>Password: ' .
+        htmlspecialchars($editorPassword) .
+        '</p>';
+    echo '<p>Role: editor</p>';
 
 } catch (PDOException $e) {
-    die("Error creating Editor account: " . $e->getMessage());
+    die(
+        'Error creating Editor account: ' .
+        htmlspecialchars($e->getMessage())
+    );
 }
