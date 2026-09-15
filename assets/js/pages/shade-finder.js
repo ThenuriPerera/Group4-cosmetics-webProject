@@ -1,11 +1,22 @@
-document.querySelectorAll('.swatch').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.swatch').forEach(b => { b.classList.remove('selected'); b.setAttribute('aria-pressed', 'false'); });
-        btn.classList.add('selected');
-        btn.setAttribute('aria-pressed', 'true');
-        const tone = btn.dataset.tone;
-        document.getElementById('skin_tone_input').value = tone;
-        document.getElementById('tone-label').textContent = 'Selected: ' + tone.charAt(0).toUpperCase() + tone.slice(1);
-        document.getElementById('find-btn').disabled = false;
+document.addEventListener("DOMContentLoaded", function () {
+    const toneButtons = document.querySelectorAll(".tone-square");
+    const toneInput = document.getElementById("skin_tone_input");
+    const toneLabel = document.getElementById("tone-label");
+    const findButton = document.getElementById("find-btn");
+
+    toneButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            toneButtons.forEach(function (item) {
+                item.classList.remove("selected");
+                item.setAttribute("aria-pressed", "false");
+            });
+
+            button.classList.add("selected");
+            button.setAttribute("aria-pressed", "true");
+
+            toneInput.value = button.dataset.tone;
+            toneLabel.textContent = "Skin tone selected.";
+            findButton.disabled = false;
+        });
     });
 });
