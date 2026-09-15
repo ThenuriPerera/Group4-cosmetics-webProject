@@ -1,4 +1,5 @@
 <?php
+
 if (!defined('LG_VIEW')) {
     http_response_code(404);
     exit;
@@ -32,6 +33,16 @@ $basePath = htmlspecialchars(
 
         <input
             type="hidden"
+            name="csrf_token"
+            value="<?= htmlspecialchars(
+                csrf_token(),
+                ENT_QUOTES,
+                'UTF-8'
+            ) ?>"
+        >
+
+        <input
+            type="hidden"
             name="skin_tone"
             id="skin_tone_input"
             value="<?= htmlspecialchars(
@@ -54,8 +65,16 @@ $basePath = htmlspecialchars(
                 <button
                     type="button"
                     class="tone-square <?= $selectedTone === $tone ? 'selected' : '' ?>"
-                    data-tone="<?= htmlspecialchars($tone) ?>"
-                    style="background-color: <?= htmlspecialchars($colour) ?>"
+                    data-tone="<?= htmlspecialchars(
+                        $tone,
+                        ENT_QUOTES,
+                        'UTF-8'
+                    ) ?>"
+                    style="background-color: <?= htmlspecialchars(
+                        $colour,
+                        ENT_QUOTES,
+                        'UTF-8'
+                    ) ?>"
                     aria-label="Skin tone <?= substr($tone, -1) ?>"
                     aria-pressed="<?= $selectedTone === $tone ? 'true' : 'false' ?>"
                 ></button>
@@ -98,8 +117,8 @@ $basePath = htmlspecialchars(
                     <h2>Makeup selected for you</h2>
 
                     <p>
-                        Foundation, concealer, blush and other makeup
-                        products matching your skin tone.
+                        Foundation, concealer, blush and powder products
+                        matching your skin tone.
                     </p>
                 </div>
 
@@ -164,9 +183,9 @@ $basePath = htmlspecialchars(
 
                                 <p>
                                     <?= htmlspecialchars(
-                                        $product['product_type'] ??
-                                        $product['category_name'] ??
-                                        'Makeup',
+                                        $product['product_type']
+                                        ?? $product['category_name']
+                                        ?? 'Makeup',
                                         ENT_QUOTES,
                                         'UTF-8'
                                     ) ?>
@@ -187,7 +206,6 @@ $basePath = htmlspecialchars(
                                 </a>
 
                             </div>
-
                         </article>
 
                     <?php endforeach; ?>
@@ -198,12 +216,11 @@ $basePath = htmlspecialchars(
 
                 <div class="empty-state">
                     <h2>No matching makeup found</h2>
+                    <p>Try selecting another colour.</p>
 
-                    <p>
-                        Try selecting another colour.
-                    </p>
-
-                    <a href="<?= $basePath ?>/modules/products/index.php">
+                    <a
+                        href="<?= $basePath ?>/modules/products/index.php"
+                    >
                         Browse all products
                     </a>
                 </div>

@@ -2,61 +2,47 @@
 
 require_once __DIR__ . '/../config/db.php';
 
-$editorName = 'Lumine Glow Editor';
-$editorEmail = 'editor@lumineglow.com';
-$editorPassword = 'Editor@123';
-$editorRole = 'editor';
+$name = 'Store Editor';
+$email = 'editor@lumineglow.com';
+$password = 'Editor@123';
+$role = 'editor';
 
 try {
-    $check = $pdo->prepare("
-        SELECT user_id
-        FROM `User`
-        WHERE email = ?
-        LIMIT 1
-    ");
+    $check = $pdo->prepare(
+        'SELECT user_id FROM `User` WHERE email = ?'
+    );
 
-    $check->execute([$editorEmail]);
+    $check->execute([$email]);
 
     if ($check->fetch()) {
-        die(
-            'Editor account already exists: ' .
-            htmlspecialchars($editorEmail)
-        );
+        exit("Editor account already exists: {$email}");
     }
 
     $hashedPassword = password_hash(
-        $editorPassword,
+        $password,
         PASSWORD_DEFAULT
     );
 
-    $insert = $pdo->prepare("
-        INSERT INTO `User`
+    $stmt = $pdo->prepare(
+        "INSERT INTO `User`
             (name, email, password, role, status)
-        VALUES
-            (?, ?, ?, ?, 'active')
-    ");
+         VALUES (?, ?, ?, ?, 'active')"
+    );
 
-    $insert->execute([
-        $editorName,
-        $editorEmail,
+    $stmt->execute([
+        $name,
+        $email,
         $hashedPassword,
-        $editorRole
+        $role
     ]);
 
-    echo '<h2>Editor account created successfully!</h2>';
-    echo '<p>Name: ' .
-        htmlspecialchars($editorName) .
-        '</p>';
-    echo '<p>Email: ' .
-        htmlspecialchars($editorEmail) .
-        '</p>';
-    echo '<p>Password: ' .
-        htmlspecialchars($editorPassword) .
-        '</p>';
-    echo '<p>Role: editor</p>';
+    echo "Editor account created successfully.<br>";
+    echo "Email: " . htmlspecialchars($email) . "<br>";
+    echo "Password: " . htmlspecialchars($password) . "<br>";
+    echo "Role: editor";
 
 } catch (PDOException $e) {
-    die(
+    exit(
         'Error creating Editor account: ' .
         htmlspecialchars($e->getMessage())
     );

@@ -24,3 +24,173 @@ small { font-size:.875rem; color:var(--muted); }
 .eyebrow { font-size:.8rem; letter-spacing:.18em; font-weight:600; color:var(--rose-text); margin-bottom:12px; }
 .price { font-weight:600; color:var(--rose-text); }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { transition:none!important; animation:none!important; scroll-behavior:auto!important; } }
+
+/* Remove underline from all links */
+a,
+a:hover,
+a:focus-visible {
+    text-decoration: none;
+}
+
+/* Animations */
+@keyframes luxuryReveal {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes luxuryFloat {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes luxuryShine {
+    from {
+        transform: translateX(-150%) rotate(18deg);
+    }
+
+    to {
+        transform: translateX(250%) rotate(18deg);
+    }
+}
+
+/* Page entrance animation */
+body {
+    animation: luxuryReveal 0.7s ease both;
+}
+
+/* Cards entrance animation */
+.product-card,
+.category-card,
+.admin-card,
+.wishlist-card {
+    animation: luxuryReveal 0.7s ease both;
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.product-card:hover,
+.category-card:hover,
+.admin-card:hover,
+.wishlist-card:hover {
+    transform: translateY(-7px);
+    border-color: #c9a46d;
+    box-shadow: 0 20px 50px rgba(80, 42, 48, 0.16);
+}
+
+/* Navigation hover */
+#main-nav a {
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+#main-nav a:hover {
+    color: #713944;
+    background: rgba(201, 164, 109, 0.16);
+    transform: translateY(-2px);
+}
+
+/* Button hover */
+.btn,
+button[type="submit"],
+.find-shade-button {
+    position: relative;
+    overflow: hidden;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.btn:hover,
+button[type="submit"]:hover,
+.find-shade-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 28px rgba(113, 57, 68, 0.25);
+}
+
+/* Button shine animation */
+.btn::after,
+button[type="submit"]::after,
+.find-shade-button::after {
+    content: "";
+    position: absolute;
+    top: -40%;
+    left: 0;
+    width: 25%;
+    height: 180%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateX(-160%) rotate(18deg);
+    pointer-events: none;
+}
+
+.btn:hover::after,
+button[type="submit"]:hover::after,
+.find-shade-button:hover::after {
+    animation: luxuryShine 0.8s ease;
+}
+
+/* Skin tone button hover */
+.tone-square {
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.tone-square:hover {
+    transform: translateY(-6px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(74, 43, 35, 0.25);
+}
+
+/* Gold decorative icon animation */
+.category-card::before {
+    animation: luxuryFloat 4s ease-in-out infinite;
+}
+
+/* Text link hover */
+.product-card a,
+.text-link,
+.section-heading a,
+.wishlist-shop-link,
+.admin-card-link {
+    transition:
+        color 0.2s ease,
+        letter-spacing 0.2s ease;
+}
+
+.product-card a:hover,
+.text-link:hover,
+.section-heading a:hover,
+.wishlist-shop-link:hover,
+.admin-card-link:hover {
+    color: #713944;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+}
+
+/* Respect accessibility settings */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

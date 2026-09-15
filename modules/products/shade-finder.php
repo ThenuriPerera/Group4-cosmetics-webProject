@@ -19,10 +19,6 @@ $shadePalette = [
     'tone-8' => '#3f241b'
 ];
 
-/*
- * The database currently uses five skin_tone values.
- * The eight visual tones are mapped to the closest database tone.
- */
 $toneDatabaseMap = [
     'tone-1' => 'fair',
     'tone-2' => 'fair',
@@ -35,27 +31,36 @@ $toneDatabaseMap = [
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_csrf_token();
 
     $selectedTone = trim(
         $_POST['skin_tone'] ?? ''
     );
 
     if (isset($toneDatabaseMap[$selectedTone])) {
-
         $databaseTone = $toneDatabaseMap[$selectedTone];
 
-        $stmt = $pdo->prepare("
-            SELECT
+        $stmt = $pdo->prepare(
+            "SELECT
                 p.*,
                 b.brand_name,
                 c.category_name
-            FROM Product p
-            LEFT JOIN Brand b
+             FROM Product p
+             LEFT JOIN Brand b
                 ON b.brand_id = p.brand_id
-            LEFT JOIN Category c
+             LEFT JOIN Category c
                 ON c.category_id = p.category_id
-            WHERE LOWER(p.skin_tone) = ?
-            AND (
+             WHERE (
+                LOWER(p.skin_tone) = ?
+                OR LOWER(p.skin_tone) = 'all'
+                OR EXISTS (
+                    SELECT 1
+                    FROM Product_Variant v
+                    WHERE v.product_id = p.product_id
+                    AND LOWER(v.shade) = ?
+                )
+             )
+             AND (
                 LOWER(p.product_type) IN (
                     'foundation',
                     'concealer',
@@ -70,23 +75,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 OR LOWER(p.product_name) LIKE '%bronzer%'
                 OR LOWER(p.product_name) LIKE '%highlighter%'
                 OR LOWER(p.product_name) LIKE '%powder%'
-            )
-            ORDER BY p.product_name ASC
-        ");
+             )
+             ORDER BY p.product_name ASC"
+        );
 
-        $stmt->execute([$databaseTone]);
+        $stmt->execute([
+            $databaseTone,
+            $databaseTone
+        ]);
+
         $results = $stmt->fetchAll();
 
         $userId = (int) current_user()['user_id'];
 
-        $profile = $pdo->prepare("
-            INSERT INTO Beauty_Profile
+        $profile = $pdo->prepare(
+            "INSERT INTO Beauty_Profile
                 (user_id, skin_tone)
-            VALUES
-                (?, ?)
-            ON DUPLICATE KEY UPDATE
-                skin_tone = VALUES(skin_tone)
-        ");
+             VALUES (?, ?)
+             ON DUPLICATE KEY UPDATE
+                skin_tone = VALUES(skin_tone)"
+        );
 
         $profile->execute([
             $userId,
