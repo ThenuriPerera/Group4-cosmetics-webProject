@@ -45,6 +45,11 @@ a:focus-visible {
     }
 }
 
+@keyframes pageFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
 @keyframes luxuryFloat {
     0%,
     100% {
@@ -68,7 +73,7 @@ a:focus-visible {
 
 /* Page entrance animation */
 body {
-    animation: luxuryReveal 0.7s ease both;
+    animation: pageFadeIn 0.7s ease both;
 }
 
 /* Cards entrance animation */
@@ -182,6 +187,52 @@ button[type="submit"]:hover::after,
     color: #713944;
     letter-spacing: 0.04em;
     text-decoration: none;
+}
+
+/* Soft cream, rose and gold light that moves gently behind every page. */
+body {
+    position: relative;
+    isolation: isolate;
+}
+
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    z-index: -1;
+    width: clamp(300px, 38vw, 560px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    filter: blur(28px);
+    pointer-events: none;
+}
+
+body::before {
+    top: -190px;
+    right: -190px;
+    background: radial-gradient(circle, rgba(242, 217, 217, 0.72) 0%, rgba(242, 217, 217, 0.3) 42%, transparent 72%);
+    translate: var(--ambient-x, 0px) var(--ambient-y, 0px);
+    transition: translate 650ms ease-out;
+    animation: ambientBreath 11s ease-in-out infinite;
+}
+
+body::after {
+    left: -210px;
+    bottom: -220px;
+    background: radial-gradient(circle, rgba(201, 164, 108, 0.22) 0%, rgba(242, 217, 217, 0.12) 42%, transparent 72%);
+    animation: ambientDrift 19s ease-in-out infinite;
+}
+
+@keyframes ambientBreath {
+    0%,
+    100% { opacity: 0.55; }
+    50% { opacity: 0.9; }
+}
+
+@keyframes ambientDrift {
+    0%,
+    100% { transform: translate3d(0, 0, 0); }
+    50% { transform: translate3d(18px, -12px, 0); }
 }
 
 /* Respect accessibility settings */

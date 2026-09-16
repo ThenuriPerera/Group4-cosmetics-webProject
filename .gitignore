@@ -14,6 +14,7 @@ uploads/*
 # XAMPP / logs
 *.log
 
-# Ignore uploaded product images but keep the folder
+# Ignore local product-image uploads but include the generated catalogue WebPs.
 assets/images/products/*
 !assets/images/products/.gitkeep
+!assets/images/products/*.webp

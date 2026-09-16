@@ -11,6 +11,8 @@ Vanilla HTML, CSS, JavaScript, PHP and MySQL. No frameworks or new external APIs
    http://localhost/test/Group4-cosmetics-webProject/index.php
 5. Press Ctrl+F5 to reload cached styles.
 
+For a fresh database, import `database/schema.sql`; it links all 50 sample products to the included generated images. For an existing compatible database with these sample products, import `database/link_all_50_product_images.sql` instead of re-importing the full schema.
+
 Use a clean folder for this version: page templates and styles have been reorganized. You do not need to edit hardcoded URL prefixes or set up a virtual host. Do not import either design reference's database over your existing database.
 
 ## Where to work
@@ -30,7 +32,8 @@ Use a clean folder for this version: page templates and styles have been reorgan
 | `assets/js/main.js` | Shared mobile navigation and page behaviour |
 | `assets/js/pages/` | Cart, quiz and shade-finder behaviour |
 | `assets/images/dp.png` | Your reference project's hero image |
-| `database/` | Original schema, retained unchanged |
+| `assets/images/products/` | 50 generated cosmetic product images used by the catalogue |
+| `database/` | Fresh-install schema and image-link script for existing databases |
 | `docs/` | File map, debugging order and validation report |
 | `tools/` | Read-only checks you can run locally |
 
@@ -41,6 +44,10 @@ Read docs/FILE-MAP.md to find a particular page, and docs/DEBUGGING.md when some
 Keep processing in modules and markup in views. Keep styles in the matching CSS file. Keep page scripts in assets/js/pages. Do not duplicate full headers, copy large inline style blocks, or add page scripts inside templates.
 
 The existing modules URLs remain valid. Payment callbacks, logout and cart-ajax.php are action endpoints; they do not have independent display templates. Existing Git history is retained. No commits were made or pushed.
+
+## Product images
+
+The 50 fictional catalogue products have generated WebP packshots in `assets/images/products/`. Their filenames are stored in `Product.image`; `config/paths.php` resolves those filenames to the image folder. The fresh-install schema links them automatically.
 
 ## Status
 
