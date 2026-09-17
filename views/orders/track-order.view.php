@@ -30,6 +30,7 @@
             </ul>
 
             <?php if (!$orderId): ?><a href="?order_id=<?= $order['order_id'] ?>">View Details</a><?php endif; ?>
+            <a class="btn" href="<?= htmlspecialchars(lg_url('/modules/orders/download-invoice.php?order_id=' . $order['order_id'])) ?>" target="_blank" rel="noopener">Download PDF</a>
         </div>
     <?php endforeach; ?>
     <?php if (empty($orders)): ?><div class="empty-state"><h2>Your next favourite is waiting.</h2><p>Your orders will appear here after checkout.</p><a class="btn" href="<?= htmlspecialchars(lg_url('modules/products/index.php')) ?>">Explore the collection</a></div><?php endif; ?>

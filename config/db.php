@@ -14,7 +14,7 @@
 $DB_HOST = 'localhost';
 $DB_NAME = 'lumine_glow';
 $DB_USER = 'root';
-$DB_PASS = '2003.05.01.Sene';
+$DB_PASS = '';
 
 // Load local overrides (this file is gitignored)
 $localConfig = __DIR__ . '/db.local.php';
