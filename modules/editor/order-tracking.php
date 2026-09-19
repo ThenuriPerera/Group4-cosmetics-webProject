@@ -2,8 +2,8 @@
 /**
  * Editor Order Tracking
  *
- * Editor/Admin can update customer order status
- * and shipment information.
+ * Editor/Admin can update customer order status,
+ * shipment information and GPS location.
  */
 
 require_once __DIR__ . '/../../config/db.php';
@@ -33,6 +33,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'updat
 
     $estimateDelivery = $_POST['estimate_delivery'] ?? '';
 
+    /*
+     * GPS values
+     */
+    $latitudeInput = trim($_POST['current_latitude'] ?? '');
+    $longitudeInput = trim($_POST['current_longitude'] ?? '');
+
     $allowedOrderStatuses = [
         'Pending',
         'Processing',
@@ -45,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'updat
         'Pending',
         'Shipped',
         'In Transit',
+        'Out for Delivery',
         'Delivered'
     ];
 
@@ -118,27 +125,83 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'updat
                 : null;
 
             /*
+             * GPS validation
+             */
+            $latitudeValue = null;
+            $longitudeValue = null;
+
+            if ($latitudeInput !== '' && $longitudeInput !== '') {
+
+                if (
+                    !is_numeric($latitudeInput) ||
+                    !is_numeric($longitudeInput)
+                ) {
+                    throw new Exception('Invalid GPS coordinates.');
+                }
+
+                $latitudeValue = (float)$latitudeInput;
+                $longitudeValue = (float)$longitudeInput;
+
+                if (
+                    $latitudeValue < -90 ||
+                    $latitudeValue > 90 ||
+                    $longitudeValue < -180 ||
+                    $longitudeValue > 180
+                ) {
+                    throw new Exception('GPS coordinates are outside the valid range.');
+                }
+            }
+
+            /*
              * Update existing shipment.
              */
             if ($shipment) {
 
-                $stmt = $pdo->prepare("
-                    UPDATE Shipment
-                    SET
-                        courier_id = ?,
-                        tracking_number = ?,
-                        delivery_status = ?,
-                        estimate_delivery = ?
-                    WHERE shipment_id = ?
-                ");
+                if ($latitudeValue !== null && $longitudeValue !== null) {
 
-                $stmt->execute([
-                    $courierValue,
-                    $trackingValue,
-                    $deliveryStatus,
-                    $estimateValue,
-                    $shipment['shipment_id']
-                ]);
+                    $stmt = $pdo->prepare("
+                        UPDATE Shipment
+                        SET
+                            courier_id = ?,
+                            tracking_number = ?,
+                            delivery_status = ?,
+                            estimate_delivery = ?,
+                            current_latitude = ?,
+                            current_longitude = ?,
+                            location_updated_at = NOW()
+                        WHERE shipment_id = ?
+                    ");
+
+                    $stmt->execute([
+                        $courierValue,
+                        $trackingValue,
+                        $deliveryStatus,
+                        $estimateValue,
+                        $latitudeValue,
+                        $longitudeValue,
+                        $shipment['shipment_id']
+                    ]);
+
+                } else {
+
+                    $stmt = $pdo->prepare("
+                        UPDATE Shipment
+                        SET
+                            courier_id = ?,
+                            tracking_number = ?,
+                            delivery_status = ?,
+                            estimate_delivery = ?
+                        WHERE shipment_id = ?
+                    ");
+
+                    $stmt->execute([
+                        $courierValue,
+                        $trackingValue,
+                        $deliveryStatus,
+                        $estimateValue,
+                        $shipment['shipment_id']
+                    ]);
+                }
 
             }
 
@@ -147,25 +210,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'updat
              */
             else {
 
-                $stmt = $pdo->prepare("
-                    INSERT INTO Shipment
-                    (
-                        order_id,
-                        courier_id,
-                        tracking_number,
-                        delivery_status,
-                        estimate_delivery
-                    )
-                    VALUES (?, ?, ?, ?, ?)
-                ");
+                if ($latitudeValue !== null && $longitudeValue !== null) {
 
-                $stmt->execute([
-                    $orderId,
-                    $courierValue,
-                    $trackingValue,
-                    $deliveryStatus,
-                    $estimateValue
-                ]);
+                    $stmt = $pdo->prepare("
+                        INSERT INTO Shipment
+                        (
+                            order_id,
+                            courier_id,
+                            tracking_number,
+                            delivery_status,
+                            estimate_delivery,
+                            current_latitude,
+                            current_longitude,
+                            location_updated_at
+                        )
+                        VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
+                    ");
+
+                    $stmt->execute([
+                        $orderId,
+                        $courierValue,
+                        $trackingValue,
+                        $deliveryStatus,
+                        $estimateValue,
+                        $latitudeValue,
+                        $longitudeValue
+                    ]);
+
+                } else {
+
+                    $stmt = $pdo->prepare("
+                        INSERT INTO Shipment
+                        (
+                            order_id,
+                            courier_id,
+                            tracking_number,
+                            delivery_status,
+                            estimate_delivery
+                        )
+                        VALUES (?, ?, ?, ?, ?)
+                    ");
+
+                    $stmt->execute([
+                        $orderId,
+                        $courierValue,
+                        $trackingValue,
+                        $deliveryStatus,
+                        $estimateValue
+                    ]);
+                }
             }
 
             /*
@@ -242,6 +335,10 @@ $orders = $pdo->query("
         s.tracking_number,
         s.delivery_status,
         s.estimate_delivery,
+
+        s.current_latitude,
+        s.current_longitude,
+        s.location_updated_at,
 
         c.company_name AS courier_name
 
