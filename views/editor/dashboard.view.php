@@ -307,11 +307,7 @@
         </div>
 
 
-        <div class="editor-note">
-            <strong>Shared workspace:</strong>
-            Product Management is shared by both Editor and Admin roles,
-            so both users work with the same product management interface.
-        </div>
+        
 
     </div>
 </section>
