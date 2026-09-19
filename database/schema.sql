@@ -482,6 +482,26 @@ CREATE TABLE Review (
   DEFAULT CHARSET=utf8mb4
   COLLATE=utf8mb4_unicode_ci;
 
+
+
+  - ---Table structure for table `review_comment`
+--
+
+DROP TABLE IF EXISTS `review_comment`;
+CREATE TABLE IF NOT EXISTS `review_comment` (
+  `comment_id` int NOT NULL AUTO_INCREMENT,
+  `review_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `comment` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('Pending','Approved','Rejected') COLLATE utf8mb4_unicode_ci DEFAULT 'Pending',
+  `comment_date` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`comment_id`),
+  KEY `review_id` (`review_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------------------------------
+
 -- ============================================================
 -- 21. WISHLIST
 -- ============================================================
