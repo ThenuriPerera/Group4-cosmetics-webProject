@@ -77,15 +77,21 @@ if (!defined('LG_VIEW')) {
                     My account
                 </a>
 
-                <?php if (in_array(current_role(), ['admin', 'editor'], true)): ?>
-                    <a href="<?= htmlspecialchars(lg_url(
-                        current_role() === 'admin'
-                            ? 'modules/admin/dashboard.php'
-                            : 'modules/products/manage.php'
-                    )) ?>">
-                        Manage store
-                    </a>
-                <?php endif; ?>
+                <?php if (current_role() === 'admin'): ?>
+    <a href="<?= htmlspecialchars(lg_url('modules/admin/dashboard.php')) ?>">
+        Manage store
+    </a>
+<?php endif; ?>
+
+<?php if (current_role() === 'editor'): ?>
+    <a href="<?= htmlspecialchars(lg_url('modules/products/manage.php')) ?>">
+        Manage products
+    </a>
+
+    <a href="<?= htmlspecialchars(lg_url('modules/editor/order-tracking.php')) ?>">
+        Order tracking
+    </a>
+<?php endif; ?>
 
                 <a href="<?= htmlspecialchars(lg_url('modules/auth/logout.php')) ?>">
                     Logout
