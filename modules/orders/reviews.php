@@ -131,12 +131,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($reviewId > 0) {
 
                     $update = $pdo->prepare(
-                        "UPDATE Review
-                         SET rating = ?,
-                             comment = ?
-                         WHERE review_id = ?
-                           AND user_id = ?
-                           AND product_id = ?"
+                         "UPDATE Review
+                             SET rating = ?,
+                             comment = ?,
+                             status = 'Pending'
+                             WHERE review_id = ?
+                             AND user_id = ?
+                             AND product_id = ?"
                     );
 
                     $update->execute([
@@ -147,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $productId
                     ]);
 
-                    $success = 'Your review has been updated successfully.';
+                         $success = 'Your review has been updated and is awaiting re-approval.';
 
                 }
 
@@ -183,17 +184,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $error = 'You have already reviewed this product. You can edit your existing review.';
 
                     } else {
-
                         /*
-                        | IMPORTANT:
-                        | Review is immediately visible.
+                        | Review enters moderation queue as Pending.
                         */
 
                         $insert = $pdo->prepare(
                             "INSERT INTO Review
                                 (user_id, product_id, rating, comment, status)
                              VALUES
-                                (?, ?, ?, ?, 'Approved')"
+                                (?, ?, ?, ?, 'Pending')"
                         );
 
                         $insert->execute([
@@ -203,7 +202,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $comment
                         ]);
 
-                        $success = 'Your review was published instantly. Thank you!';
+                         $success = 'Your review has been submitted and is awaiting admin approval.';
 
                     }
                 }
@@ -240,7 +239,7 @@ $myReview = $myReviewStmt->fetch(PDO::FETCH_ASSOC);
 | Product Reviews
 |--------------------------------------------------------------------------
 |
-| Instant reviews use Approved status.
+| | Only Approved reviews are shown to customers.
 |
 */
 

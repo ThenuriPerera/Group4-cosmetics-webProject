@@ -55,8 +55,8 @@ function review_stars($rating)
         </div>
 
         <div class="review-live-badge">
-            <span class="live-dot"></span>
-            Reviews publish instantly
+           <span class="live-dot"></span>
+            Reviews require admin approval
         </div>
 
     </div>
@@ -71,7 +71,7 @@ function review_stars($rating)
         <div class="review-message success-message">
             <span>✓</span>
             <div>
-                <strong>Review published!</strong>
+                <strong>Review submitted!</strong>
                 <p><?= htmlspecialchars($success) ?></p>
             </div>
         </div>
@@ -312,14 +312,14 @@ function review_stars($rating)
                 <div class="review-form-bottom">
 
                     <div class="instant-note">
-                        ⚡ Your review will be published instantly.
+                        ⚡ Your review will be reviewed by our team before publishing.
                     </div>
 
                     <button
                         type="submit"
                         class="submit-review-btn"
                     >
-                        <?= $myReview ? 'Update Review' : 'Publish Review' ?>
+                    <?= $myReview ? 'Update Review' : 'Submit Review' ?>
                     </button>
 
                 </div>
@@ -502,7 +502,7 @@ function review_stars($rating)
                     <div class="review-card-footer">
 
                         <span>
-                            ✓ Published instantly
+                            ✓ Verified Purchase
                         </span>
 
                         <button
