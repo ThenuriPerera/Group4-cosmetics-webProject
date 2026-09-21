@@ -1,20 +1,15 @@
 <?php
 /**
  * Lumine Glow - Database Connection
- * Shared by all modules. Do not commit real credentials — use db.local.php
- * (gitignored) if you need different local settings.
- *
- * To override for your machine, create config/db.local.php with:
- *   $DB_HOST = 'localhost';
- *   $DB_NAME = 'lumine_glow';
- *   $DB_USER = 'root';
- *   $DB_PASS = 'your_mysql_password';
+ * Shared by all modules.
  */
 
-$DB_HOST = 'localhost';
-$DB_NAME = 'lumine_glow';
-$DB_USER = 'root';
-$DB_PASS = '';
+require_once __DIR__ . '/env.php';
+
+$DB_HOST = lume_env('DB_HOST', 'localhost');
+$DB_NAME = lume_env('DB_NAME', 'lumine_glow');
+$DB_USER = lume_env('DB_USER', 'root');
+$DB_PASS = lume_env('DB_PASS', '');
 
 // Load local overrides (this file is gitignored)
 $localConfig = __DIR__ . '/db.local.php';
