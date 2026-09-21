@@ -1,5 +1,7 @@
 # Local overrides
 config/db.local.php
+.env
+.env.*
 
 # OS / editor junk
 .DS_Store
